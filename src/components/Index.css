@@ -1,0 +1,27 @@
+.logoImage{
+    position: absolute;
+}
+.logoImage img{
+    padding: 30px;
+}
+.time {
+    margin-top: -60%;
+    margin-left: 30%;
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: white;
+    font-family: system-ui;
+    text-transform: uppercase;
+    z-index: 99;
+    position: relative;
+}
+.urls {
+    z-index: 99;
+    position: relative;
+    margin-top: 25%;
+    margin-left: 65%;
+    font-size: 1rem;
+    font-weight: 300;
+    color: white;
+    font-family: system-ui;
+}

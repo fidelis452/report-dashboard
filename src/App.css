@@ -1,0 +1,10 @@
+.flex-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  margin: auto 25%;
+}
+.btn-classs{
+  padding-top: 10px;
+}
