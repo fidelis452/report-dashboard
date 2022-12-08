@@ -1,7 +1,4 @@
-// import { Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Index.jsx";
-import TableContent from "./components/content-table/TableContent.jsx";
-// import Introduction from "./components/Intro/Index.jsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useRef } from "react";
@@ -21,6 +18,7 @@ function App() {
 
     doc.setFont("Calibri", "normal");
     const width = doc.internal.pageSize.getWidth();
+
     doc.autotable({startY: 30})
     doc.html(Index.current, {
       autoPaging: "text",
@@ -37,9 +35,8 @@ function App() {
 
   return (
     <div className="flex-container">
-      <div ref={Index} id="table">
+      <div ref={Index}>
         <Dashboard />
-        {/* <TableContent /> */}
       </div>
       <div className="btn-classs">
         <button className="button" onClick={handleGeneratePdf}>
