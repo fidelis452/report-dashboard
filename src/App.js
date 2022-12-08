@@ -1,6 +1,6 @@
 // import { Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Index.jsx";
-// import TableContent from "./components/content-table/TableContent.jsx";
+import TableContent from "./components/content-table/TableContent.jsx";
 // import Introduction from "./components/Intro/Index.jsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
