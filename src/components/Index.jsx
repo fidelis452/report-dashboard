@@ -1,30 +1,45 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts"
 import "./Index.css";
 import topImage from "../files/Acquiretek-Test.png";
 import logoImage from "../files/MicrosoftTeams-image.png";
+
+const data = [
+  {name: "2018", react: 40},
+  {name: "2019", react: 50},
+  {name: "2020", react: 31},
+  {name: "2021", react: 35},
+  {name: "2022", react: 46},
+  {name: "2018", react: 40},
+  {name: "2019", react: 50},
+  {name: "2020", react: 31},
+  {name: "2021", react: 35},
+  {name: "2022", react: 46},
+  {name: "2018", react: 40},
+  {name: "2019", react: 50},
+  {name: "2020", react: 31},
+  {name: "2021", react: 35},
+]
+
 export default function TableContent() {
 
   const current = new Date();
   const month = current.toLocaleString("en-US", { month: "short" });
-  console.log(month);
   const year = `${current.getFullYear()}`;
 
-  const today = new Date();
-
-  const date = `${today.getDate()} ${today.toLocaleString("en-US", {
+  const date = `${current.getDate()} ${current.toLocaleString("en-US", {
     month: "long",
-  })}, ${today.getFullYear()}`;
-  console.log(date);
+  })}, ${current.getFullYear()}`;
 
   return (
     <div>
-      <div className="dashboard">
+      <div className="dashboard" id="pagebreak">
         <div className="page-1">
           <div className="logoImage">
             <img src={logoImage} alt="background" width="150px" />
           </div>
-          <img src={topImage} alt="background" width="100%" />
+          <img id="image" src={topImage} alt="background" width="100%" />
         </div>
         <div className="time">
           <div>{month}</div>
@@ -36,7 +51,7 @@ export default function TableContent() {
       </div>
 
       {/* section 2 */}
-      <div className="table-content">
+      <div className="table-content" id="pagebreak">
         <div className="heading">TABLE OF CONTENTS</div>
         <div className="">
           <a href="#exec-summary" className="title">
@@ -102,7 +117,7 @@ export default function TableContent() {
           </div>
         </div>
       </div>
-      <div className="contentpage">
+      <div className="contentpage" id="pagebreak">
         <div>
           <div>
             <div className="name">Acquiretek</div>
@@ -176,9 +191,8 @@ export default function TableContent() {
           </table>
         </div>
       </div>
-
       {/* snapshot */}
-      <div className="snapshot-container">
+      <div className="snapshot-container" id="pagebreak">
         <div className="snapshot">Snapshot</div>
         <div class="grid-container">
           <div>
@@ -209,7 +223,7 @@ export default function TableContent() {
       </div>
       {/* visuals */}
 
-      <div className="visuals">
+      <div className="visuals" id="pagebreak">
         <div>
           <div className="visual-title">Visuals</div>
           <div className="visual-subtitle">Uptime Monitoring</div>
@@ -217,19 +231,37 @@ export default function TableContent() {
              show the uptime in percentage against time in days.)</p>
         </div>
         {/* graph 1 */}
-        <div>
-          <div>Server Response Time</div>
-          <div></div>
+        <div className="graphs">
+          <div className="graph-title">Server Response Time</div>
+          <div>
+            <LineChart width={700} height={300} data={data}>
+              <Line type="monotone" dataKey="react" stroke="blue" strokeWidth={2}/>
+              <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
+              <XAxis dataKey='name'/>
+              <YAxis/>
+              <Tooltip/>
+              <Legend/>
+              </LineChart>
+          </div>
         </div>
         {/* graph 2 */}
-        <div>
-          <div>Attempted Login</div>
-          <div></div>
+        <div className="graphs">
+          <div className="graph-title">Attempted Login</div>
+          <div>
+          <LineChart width={700} height={300} data={data}>
+              <Line type="monotone" dataKey="react" stroke="blue" strokeWidth={2}/>
+              <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
+              <XAxis dataKey='name'/>
+              <YAxis/>
+              <Tooltip/>
+              <Legend/>
+              </LineChart>
+          </div>
         </div>
       </div>
 
       {/* Unauthorized access and update */}
-      <div className="unauthorized">
+      <div className="unauthorized" id="pagebreak">
         <div className="tech-maintenance">Security Audit</div>
         <div className="user-test">UNAUTHORIZED ACCESS AND UPDATE</div>
         <div className="subsect">
@@ -252,7 +284,7 @@ export default function TableContent() {
       </div>
 
       {/* Technical maintenance */}
-      <div className="maintenance">
+      <div className="maintenance" id="pagebreak">
         <div className="tech-maintenance">TECHNICAL MAINTENACE</div>
         <div className="user-test">USER EXPERIENCE TESTS</div>
         <div className="subsect">

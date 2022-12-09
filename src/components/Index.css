@@ -1,248 +1,295 @@
-.logoImage{
-    position: absolute;
+.logoImage {
+  position: absolute;
+}
+.logoImage img {
+  padding: 30px;
+}
+.time {
+  margin-top: -60%;
+  margin-left: 30%;
+  font-size: 3.5rem;
+  font-weight: 400;
+  color: white;
+  font-family: system-ui;
+  text-transform: uppercase;
+  z-index: 99;
+  position: relative;
+}
+.urls {
+  z-index: 99;
+  position: relative;
+  margin-top: 25%;
+  margin-left: 65%;
+  font-size: 1rem;
+  font-weight: 300;
+  color: white;
+  font-family: system-ui;
+}
+
+.table-content {
+  padding-top: 20%;
+  text-transform: capitalize;
+  /* font-family: Georgia; */
+  margin: 3%;
+}
+.heading {
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+  color: rgb(107, 107, 255);
+  font-weight: 800;
+  font-size: 2rem;
+}
+div > a {
+  text-decoration: none;
+  color: black;
+}
+/* .sub- */
+.title {
+  display: flex;
+  padding-bottom: 10px;
+  align-items: baseline;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.leaders {
+  border-bottom: 3px dotted rgb(20, 20, 20);
+  flex-grow: 1;
+  margin: 0 10px;
+}
+.subtitle {
+  display: flex;
+  padding-bottom: 10px;
+  margin-left: 15px;
+  align-items: baseline;
+  text-transform: uppercase;
+}
+.sub-leaders {
+  border-bottom: 2px dotted rgb(5, 5, 5, 0.4);
+  flex-grow: 1;
+  margin: 0px 10px;
+}
+
+.contentpage {
+  margin: 2rem;
+  /* page-break-before: always !important; */
+}
+.name {
+  color: rgb(107, 107, 255);
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.date {
+  color: rgb(107, 107, 255);
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+.content-title {
+  color: rgb(49, 49, 139);
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.content-subtitle {
+  color: rgb(79, 79, 177);
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin: 3.5rem 0rem 1rem 0rem;
+}
+.intro {
+}
+.table {
+}
+.table {
+  text-align: left;
+  margin-top: 3rem;
+}
+.table-intro {
+  color: rgb(79, 79, 177);
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+th {
+  background-color: #bdd4fd;
+}
+table {
+  width: 100%;
+  margin: 3rem 0rem;
+}
+table,
+th,
+td {
+  padding: 1rem;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.status-color {
+  display: flex;
+  position: initial;
+  justify-content: space-between;
+}
+.green {
+  height: 30px;
+  width: 30px;
+  background-color: rgb(62, 216, 24);
+  border-radius: 50%;
+}
+.yellow {
+  height: 30px;
+  width: 30px;
+  background-color: rgb(251, 255, 31);
+  border-radius: 50%;
+}
+.red {
+  height: 30px;
+  width: 30px;
+  background-color: rgb(255, 6, 6);
+  border-radius: 50%;
+}
+.status {
+  width: 150px;
+}
+.score {
+  width: 150px;
+}
+/* snapshot */
+.snapshot-container {
+  margin: 5rem 2rem 5rem 2rem;
+}
+.snapshot {
+  color: rgb(49, 49, 139);
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.grid-container {
+  display: grid;
+  /* font-size: 1rem; */
+  grid-template-columns: auto auto;
+  gap: 10px;
+  padding: 10px;
+  margin: 4rem;
+}
+
+.grid-container > div {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 7rem;
+}
+
+/* visuals */
+.visuals {
+  margin: 2rem;
+}
+.visual-title {
+  color: rgb(84, 84, 194);
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+.visual-subtitle {
+  color: rgb(84, 84, 194);
+  text-transform: capitalize;
+  font-weight: 500;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+.graph-title {
+  color: rgb(84, 84, 194);
+  text-transform: uppercase;
+  font-weight: 550;
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+/* unauthorized */
+.unauthorized {
+  margin: 2rem;
+}
+.subsect {
+  padding: 0.5rem;
+  background-color: rgb(177, 204, 255);
+  display: flex;
+}
+.subsect div {
+}
+.italics {
+  font-style: italic;
+  font-size: smaller;
+  margin-top: 1px;
+}
+.fas {
+  font-style: italic;
+  background-color: rgb(136, 136, 255);
+  padding: 0.5rem 1rem;
+  border-radius: 1px;
+  font-size: 1.1rem;
+  color: white;
+  margin-right: 1rem;
+}
+/* maintenance */
+
+.maintenance {
+  margin: 2rem;
+}
+.tech-maintenance {
+  color: rgb(84, 84, 194);
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 4rem;
+}
+.user-test {
+  color: rgb(49, 49, 139);
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* @media all{
+  #pagebreak{
+    display: none;
   }
-  .logoImage img{
-    padding: 30px;
+} */
+@media print {
+  #pagebreak {
+    display: block;
+    break-before: always !important;
+    page-break-before: always !important;
+    page-break-inside: avoid !important;
+    font-family: calibri;
+    margin-top: 0rem !important;
+    counter-increment: page;
+    content:counter(page);
+    /* overflow: visible; */
+    
   }
-  .time {
-    margin-top: -60%;
-    margin-left: 30%;
-    font-size: 3.5rem;
-    font-weight: 400;
-    color: white;
-    font-family: system-ui;
-    text-transform: uppercase;
-    z-index: 99;
-    position: relative;
+  html, body {
+    /* height: 90vh; */
+    /* margin: 0 !important;
+    padding: 0 !important; */
+    /* overflow: */
   }
-  .urls {
-    z-index: 99;
-    position: relative;
-    margin-top: 25%;
-    margin-left: 65%;
-    font-size: 1rem;
-    font-weight: 300;
-    color: white;
-    font-family: system-ui;
+  #pagebreak:after {
+    /* counter-increment: page; */
+    content:"Page " counter(page);
+    left: 0; 
+    margin-bottom: 3rem;
+    white-space: nowrap; 
+    z-index: 20;
+    -moz-border-radius: 5px; 
+    -moz-box-shadow: 0px 0px 4px #222;  
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);  
   }
-  
-  .table-content {
-    padding-top: 20%;
-    text-transform: capitalize;
-    /* font-family: Georgia; */
-    margin: 3%;
-  }
-  .heading {
-    margin-top: 2rem;
-    margin-bottom: 5rem;
-    color: rgb(107, 107, 255);
-    font-weight: 800;
-    font-size: 2rem;
-  }
-  div > a {
-    text-decoration: none;
-    color: black;
-  }
-  /* .sub- */
-  .title {
-    display: flex;
-    padding-bottom: 10px;
-    align-items: baseline;
-    font-weight: bold;
-  }
-  .leaders {
-    border-bottom: 3px dotted rgb(20, 20, 20);
-    flex-grow: 1;
-    margin: 0 10px;
-  }
-  .subtitle {
-    display: flex;
-    padding-bottom: 10px;
-    margin-left: 15px;
-    align-items: baseline;
-  }
-  .sub-leaders {
-    border-bottom: 2px dotted rgb(5, 5, 5, 0.4);
-    flex-grow: 1;
-    margin: 0px 10px;
-  }
-  
-  .contentpage {
-    margin: 2rem;
-  }
-  .name {
-    color: rgb(107, 107, 255);
-    text-transform: uppercase;
-    font-weight: 500;
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-  .date {
-    color: rgb(107, 107, 255);
-    text-transform: uppercase;
-    font-weight: 300;
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-  .content-title {
-    color: rgb(49, 49, 139);
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  .content-subtitle {
-    color: rgb(79, 79, 177);
-    text-transform: uppercase;
-    font-weight: 500;
-    font-size: 1.5rem;
-    margin: 3.5rem 0rem 1rem 0rem;
-  }
-  .intro {
-  }
-  .table {
-  }
-  .table {
-    text-align: left;
-    margin-top: 3rem;
-  }
-  .table-intro {
-    color: rgb(79, 79, 177);
-    text-transform: uppercase;
-    font-weight: 500;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  th {
-    background-color: #bdd4fd;
-  }
-  table{
-    width: 100%;
-    margin: 3rem 0rem;
-  }
-  table,
-  th,
-  td {
-    padding: 1rem;
-    border: 1px solid black;
-    border-collapse: collapse;
-  }
-  .status-color{
-    display: flex;
-      position: initial;
-      justify-content: space-between;
-  }
-  .green {
-    height: 30px;
-    width: 30px;
-    background-color: rgb(62, 216, 24);
-    border-radius: 50%;
-  }
-  .yellow {
-    height: 30px;
-    width: 30px;
-    background-color: rgb(251, 255, 31);
-    border-radius: 50%;
-  }
-  .red {
-    height: 30px;
-    width: 30px;
-    background-color: rgb(255, 6, 6);
-    border-radius: 50%;
-  }
-  .status {
-    width: 150px;
-  }
-  .score {
-    width: 150px;
-  }
-  /* snapshot */
-  .snapshot-container{
-    margin: 5rem 2rem 5rem 2rem;
-  
-  }
-  .snapshot{
-    color: rgb(49, 49, 139);
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  .grid-container {
-    display: grid;
-    /* font-size: 1rem; */
-    grid-template-columns: auto auto ;
-    gap: 10px;
-    padding: 10px;
-    margin: 4rem;
-  }
-  
-  .grid-container > div {
-    text-align: center;
-    font-size: 20px;
-    margin-bottom: 7rem;
-  }
-  
-  /* visuals */
-  .visuals{
-    margin: 2rem;
-  }
-  .visual-title{
-    color: rgb(84, 84, 194);
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-  }
-  .visual-subtitle{
-    color: rgb(84, 84, 194);
-    text-transform: capitalize;
-    font-weight: 500;
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-  }
-  /* unauthorized */
-  .unauthorized{
-    margin: 2rem;
-  }
-  .subsect{
-    padding: 0.5rem;
-      background-color: rgb(177, 204, 255);
-      display: flex;
-  }
-  .subsect div{
-  
-  }
-  .italics{
-    font-style: italic;
-    font-size: smaller;
-    margin-top: 1px;
-  }
-  .fas{
-    font-style: italic;
-      background-color:rgb(136, 136, 255);
-      padding: 0.5rem 1rem;
-      border-radius: 1px;
-      font-size: 1.1rem;
-      color: white;
-      margin-right: 1rem;
-  }
-  /* maintenance */
-  
-  .maintenance{
-    margin: 2rem;
-  }
-  .tech-maintenance{
-    color: rgb(84, 84, 194);
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1.5rem;
-    margin-bottom: 4rem;
-  }
-  .user-test{
-    color: rgb(49, 49, 139);
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
+}
