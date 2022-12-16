@@ -159,6 +159,12 @@ td {
 .score {
   width: 150px;
 }
+.overral-health {
+  height: 40px;
+  width: 80px;
+  background-color: rgb(62, 216, 24);
+  border-radius: 5px;
+}
 /* snapshot */
 .snapshot-container {
   margin: 5rem 2rem 5rem 2rem;
@@ -185,6 +191,26 @@ td {
   margin-bottom: 7rem;
 }
 
+.item {
+  font-size: 30px;
+  font-weight: 500;
+  color: tomato;
+}
+.date {
+  padding: 1rem;
+  border: none;
+  color: tomato;
+  font-size: 25px;
+  font-weight: 500;
+}
+.times-tested {
+  padding: 1rem;
+  border: none;
+  font-size: 30px;
+  font-weight: 500;
+  color: tomato;
+  text-align: center;
+}
 /* visuals */
 .visuals {
   margin: 2rem;
@@ -271,11 +297,11 @@ td {
     font-family: calibri;
     margin-top: 0rem !important;
     counter-increment: page;
-    content:counter(page);
+    content: counter(page);
     /* overflow: visible; */
-    
   }
-  html, body {
+  html,
+  body {
     /* height: 90vh; */
     /* margin: 0 !important;
     padding: 0 !important; */
@@ -283,13 +309,13 @@ td {
   }
   #pagebreak:after {
     /* counter-increment: page; */
-    content:"Page " counter(page);
-    left: 0; 
+    content: "Page " counter(page);
+    left: 0;
     margin-bottom: 3rem;
-    white-space: nowrap; 
+    white-space: nowrap;
     z-index: 20;
-    -moz-border-radius: 5px; 
-    -moz-box-shadow: 0px 0px 4px #222;  
-    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);  
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 0px 0px 4px #222;
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
   }
 }

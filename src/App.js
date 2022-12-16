@@ -1,12 +1,15 @@
 import Dashboard from "./components/Index.jsx";
+import Form from "./components/form/forms.jsx"
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useRef } from "react";
-import ReactToPrint, { useReactToPrint } from "react-to-print";
+// import ReactToPrint, { useReactToPrint } from "react-to-print";
 
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Dummy from "./components/dummy.jsx";
 function App() {
-  const Index = useRef();
+  // const Index = useRef();
 
   // const handleGeneratePdf = () => {
   //   const doc = new jsPDF({
@@ -33,22 +36,25 @@ function App() {
   //   });
   // };
 
-  const handleGeneratePdf = useReactToPrint({
-    content: () => Index.current,
-  })
+  // const handleGeneratePdf = useReactToPrint({
+  //   content: () => Index.current,
+  // })
 
   return (
     <div className="flex-container">
+      <Routes>
+        {/* <Route path="/forms" element={<Form/>}/> */}
+        <Route path="/forms" element={<Dummy/>}/>
+        <Route path="/" element={<Dashboard/>}/>
+        {/* <Route path="/" element={
       <ReactToPrint>
       <div ref={Index}>
         <Dashboard />
       </div>
       </ReactToPrint>
-      <div className="btn-classs">
-        <button className="button" onClick={handleGeneratePdf}>
-          Generate PDF
-        </button>
-      </div>
+        }/> */}
+      </Routes>
+      
     </div>
   );
 }

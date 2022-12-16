@@ -1,28 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import {CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts"
+import axios from "axios";
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 import "./Index.css";
 import topImage from "../files/Acquiretek-Test.png";
 import logoImage from "../files/MicrosoftTeams-image.png";
 
-const data = [
-  {name: "2018", react: 40},
-  {name: "2019", react: 50},
-  {name: "2020", react: 31},
-  {name: "2021", react: 35},
-  {name: "2022", react: 46},
-  {name: "2018", react: 40},
-  {name: "2019", react: 50},
-  {name: "2020", react: 31},
-  {name: "2021", react: 35},
-  {name: "2022", react: 46},
-  {name: "2018", react: 40},
-  {name: "2019", react: 50},
-  {name: "2020", react: 31},
-  {name: "2021", react: 35},
-]
+import ReactToPrint, { useReactToPrint } from "react-to-print";
 
 export default function TableContent() {
+
+  const Index = useRef();
+
+  const [serverRes, setServerRes] = useState();
+  const [attempts, setAttempts] = useState();
+  const [serverDowntime, setServerDowntime] = useState();
+  const [loginAttempts, setLoginAttempts] = useState();
+  const [startDate, setStartDate] = useState(new Date());
 
   const current = new Date();
   const month = current.toLocaleString("en-US", { month: "short" });
@@ -32,8 +36,55 @@ export default function TableContent() {
     month: "long",
   })}, ${current.getFullYear()}`;
 
+  const url = "http://localhost:5000";
+
+  const dateformater = (dateString) => {
+    const date = new Date(dateString);
+    return date.getDate();
+  };
+
+  useEffect(() => {
+    axios.get(`${url}/dashboard/serverResponse`).then(function (res) {
+      const serverResponseData = res.data.map((item) => ({
+        ...item,
+        date_joined: dateformater(item.date_joined),
+      }));
+      setServerRes(serverResponseData);
+      console.log({ serverRes });
+      const downtime = res.data.reduce(
+        (total = 0, item) => (total += item.response_time),
+        0
+      );
+      setServerDowntime(downtime);
+      // console.log({downtime});
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get(`${url}/dashboard/loginAttempts`).then(function (res) {
+      const formattedData = res.data.map((item) => ({
+        ...item,
+        date: dateformater(item.date),
+      }));
+      setAttempts(formattedData);
+      const hackAttempts = res.data.reduce(
+        (total = 0, item) => (total += item.numberOfRetries),
+        0
+      );
+      setLoginAttempts(hackAttempts);
+      console.log({ hackAttempts });
+    });
+  }, []);
+
+
+  const handleGeneratePdf = useReactToPrint({
+    content: () => Index.current,
+  })
+
   return (
     <div>
+      <ReactToPrint>
+        <div ref={Index}>
       <div className="dashboard" id="pagebreak">
         <div className="page-1">
           <div className="logoImage">
@@ -142,6 +193,7 @@ export default function TableContent() {
         </div>
         <div className="table">
           <div className="table-intro">Overall Site Health</div>
+          <div className="overral-health"></div>
           <table>
             <thead>
               <tr>
@@ -154,7 +206,12 @@ export default function TableContent() {
               <tr>
                 <td>
                   <div className="status-color">
-                    Good<span className="green"></span>
+                    Good
+                    <input
+                      className="green"
+                      type="radio"
+                      name="site-health"
+                    ></input>
                   </div>
                 </td>
                 <td>8 - 10</td>
@@ -166,7 +223,12 @@ export default function TableContent() {
               <tr>
                 <td>
                   <div className="status-color">
-                    Moderate<span className="yellow"></span>
+                    Moderate
+                    <input
+                      className="yellow"
+                      type="radio"
+                      name="site-health"
+                    ></input>
                   </div>
                 </td>
                 <td>5 - 7</td>
@@ -178,7 +240,12 @@ export default function TableContent() {
               <tr>
                 <td>
                   <div className="status-color">
-                    Critical<span className="red"></span>
+                    Critical
+                    <input
+                      className="red"
+                      type="radio"
+                      name="site-health"
+                    ></input>
                   </div>
                 </td>
                 <td>0 - 4</td>
@@ -196,27 +263,33 @@ export default function TableContent() {
         <div className="snapshot">Snapshot</div>
         <div class="grid-container">
           <div>
-            <div>{"{10 hours}"}</div>
+            <div className="item">{serverDowntime}</div>
             <div>Total Downtime</div>
           </div>
           <div>
-            <div>{"{10 hours}"}</div>
+            <div className="item">{"{10 hours}"}</div>
             <div>Billed on Development</div>
           </div>
           <div>
-            <div>{"{10 hours}"}</div>
+            <div className="item">{loginAttempts}</div>
             <div>Hack attempts prevented</div>
           </div>
           <div>
-            <div>{"{10 hours}"}</div>
+            <div className="item">2</div>
             <div>Backups taken</div>
           </div>
           <div>
-            <div>{"{10 hours}"}</div>
+            <div className="item">
+              <div>
+                <input className="date" type="date" />
+              </div>
+            </div>
             <div>Last time patched/updated</div>
           </div>
           <div>
-            <div>{"{10 hours}"}</div>
+            <div className="item">
+              <input className="times-tested" type="text" name="times-tested" />
+            </div>
             <div>Times tested for enquiry forms</div>
           </div>
         </div>
@@ -227,35 +300,47 @@ export default function TableContent() {
         <div>
           <div className="visual-title">Visuals</div>
           <div className="visual-subtitle">Uptime Monitoring</div>
-          <p>(Included only when there is has been an outage over the month. The graph will
-             show the uptime in percentage against time in days.)</p>
+          <p>
+            (Included only when there is has been an outage over the month. The
+            graph will show the uptime in percentage against time in days.)
+          </p>
         </div>
         {/* graph 1 */}
         <div className="graphs">
           <div className="graph-title">Server Response Time</div>
           <div>
-            <LineChart width={700} height={300} data={data}>
-              <Line type="monotone" dataKey="react" stroke="blue" strokeWidth={2}/>
-              <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
-              <XAxis dataKey='name'/>
-              <YAxis/>
-              <Tooltip/>
-              <Legend/>
-              </LineChart>
+            <LineChart width={700} height={300} data={serverRes}>
+              <Line
+                type="monotone"
+                dataKey="response_time"
+                stroke="blue"
+                strokeWidth={2}
+              />
+              <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+              <XAxis dataKey="date_joined" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+            </LineChart>
           </div>
         </div>
         {/* graph 2 */}
         <div className="graphs">
           <div className="graph-title">Attempted Login</div>
           <div>
-          <LineChart width={700} height={300} data={data}>
-              <Line type="monotone" dataKey="react" stroke="blue" strokeWidth={2}/>
-              <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
-              <XAxis dataKey='name'/>
-              <YAxis/>
-              <Tooltip/>
-              <Legend/>
-              </LineChart>
+            <LineChart width={700} height={300} data={attempts}>
+              <Line
+                type="monotone"
+                dataKey="numberOfRetries"
+                stroke="blue"
+                strokeWidth={2}
+              />
+              <CartesianGrid stroke="#ccc" strokeDasharray="5,5" />
+              <XAxis dataKey={"date"} />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+            </LineChart>
           </div>
         </div>
       </div>
@@ -266,7 +351,7 @@ export default function TableContent() {
         <div className="user-test">UNAUTHORIZED ACCESS AND UPDATE</div>
         <div className="subsect">
           <div>
-          <i className="fas fa-info"></i>
+            <i className="fas fa-info"></i>
           </div>
           <p className="italics">
             This audit takes care of security areas such as login attempts to
@@ -289,7 +374,7 @@ export default function TableContent() {
         <div className="user-test">USER EXPERIENCE TESTS</div>
         <div className="subsect">
           <div>
-          <i className="fas fa-info"></i>
+            <i className="fas fa-info"></i>
           </div>
           <p className="italics">
             This test ensures that the site performs as expected and that your
@@ -303,23 +388,46 @@ export default function TableContent() {
           </thead>
           <tbody>
             <tr>
-              <td>October 5th</td>
+              <td>
+                <div>
+                  <input className="maintenance-dates" type="date" />
+                </div>
+              </td>
               <td>Contact form tested</td>
             </tr>
             <tr>
-              <td>October 10th</td>
+              <td>
+                <div>
+                  <input className="maintenance-dates" type="date" />
+                </div>
+              </td>
               <td>Speed test performed</td>
             </tr>
             <tr>
-              <td>October 15th</td>
+              <td>
+                <div>
+                  <input className="maintenance-dates" type="date" />
+                </div>
+              </td>
               <td>Navigation tested</td>
             </tr>
             <tr>
-              <td>October 20th</td>
+              <td>
+                <div>
+                  <input className="maintenance-dates" type="date" />
+                </div>
+              </td>
               <td>Image optimisation test performed</td>
             </tr>
           </tbody>
         </table>
+      </div>
+      </div>
+      </ReactToPrint>
+      <div className="btn-classs">
+        <button className="button" onClick={handleGeneratePdf}>
+          Generate PDF
+        </button>
       </div>
     </div>
   );
