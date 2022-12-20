@@ -160,9 +160,28 @@ td {
   width: 150px;
 }
 .overral-health {
-  height: 40px;
+  /* height: 40px;
   width: 80px;
   background-color: rgb(62, 216, 24);
+  border-radius: 5px; */
+}
+.overral-health-good{
+  height: 40px;
+  width: 80px;
+  background-color: green;
+  border-radius: 5px;
+}
+
+.overral-health-moderate{
+  height: 40px;
+  width: 80px;
+  background-color: yellow;
+  border-radius: 5px;
+}
+.overral-health-critical{
+  height: 40px;
+  width: 80px;
+  background-color: red;
   border-radius: 5px;
 }
 /* snapshot */

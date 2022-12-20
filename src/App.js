@@ -1,5 +1,6 @@
 import Dashboard from "./components/Index.jsx";
-import Form from "./components/form/forms.jsx"
+import Form from "./components/form/Form.jsx"
+import Login from './components/login/Login.jsx'
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useRef } from "react";
@@ -41,21 +42,18 @@ function App() {
   // })
 
   return (
-    <div className="flex-container">
+    <div>
       <Routes>
-        {/* <Route path="/forms" element={<Form/>}/> */}
-        <Route path="/forms" element={<Dummy/>}/>
+        <Route path="/form" element={<Form/>}/>
+        <Route path="/login" element={<Login/>}/>
+        </Routes>
+        <div className="flex-container">
+        <Routes>
         <Route path="/" element={<Dashboard/>}/>
-        {/* <Route path="/" element={
-      <ReactToPrint>
-      <div ref={Index}>
-        <Dashboard />
-      </div>
-      </ReactToPrint>
-        }/> */}
       </Routes>
-      
     </div>
+    </div>
+      
   );
 }
 

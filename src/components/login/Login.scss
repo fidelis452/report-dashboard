@@ -1,0 +1,45 @@
+.login{
+    display: flex !important;
+    justify-content: center !important;
+    height: 100vh;
+    align-items: center;
+    img{
+        width: 100% !important;
+        height: 100%;
+        object-fit: cover;
+    }
+   
+    .login_card{
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 30px;
+       button{
+        background-color: #BF1E2E !important;
+        width: 50% !important;
+        margin-top: 30px;
+        border: none !important;
+       }
+       label{
+        margin-top: 10px;
+        margin-bottom: 10px;
+       }
+       h2{
+        color:#BF1E2E !important; 
+       }
+       form{
+        div{
+            &:first-child{
+                margin-bottom: 1rem;
+            }
+        }
+        input{
+            &:focus {
+                // border-color: transparent !important;
+                box-shadow: 0 0 0 0.25rem rgb(255 0 0);
+                border: none !important;
+              }
+        }
+        
+       }
+    }
+  
+}
