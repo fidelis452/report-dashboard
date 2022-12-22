@@ -10,24 +10,27 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
+
 import "./Index.css";
 import topImage from "../files/Acquiretek-Test.png";
 import logoImage from "../files/MicrosoftTeams-image.png";
-
+import JsonData from "./logos.json";
 import ReactToPrint, { useReactToPrint } from "react-to-print";
 
 export default function TableContent() {
+  console.log(JsonData);
+
   const Index = useRef();
 
   const [serverRes, setServerRes] = useState();
   const [attempts, setAttempts] = useState();
   const [serverDowntime, setServerDowntime] = useState();
   const [loginAttempts, setLoginAttempts] = useState();
+
+  // const [clients, setClients] = useState([{ name: "select a client" }]);
   const [formData, setFormData] = useState();
   const [startDate, setStartDate] = useState(new Date());
-
+  const [mergedData, setMergedData] = useState();
   const [currentUser, setCurrentUser] = useState();
   const [activeUser, setActiveUser] = useState();
   const current = new Date();
@@ -84,41 +87,38 @@ export default function TableContent() {
     setFormData(JSON.parse(lsData));
   }, []);
 
-  console.log(formData);
+  // console.log(formData);
 
   const new1 = formData?.map((data) => ({
     url: data.clientName,
   }));
-  console.log(new1);
 
-  // console.log(formData );
-
-  // const activeUrl = (urls) => {
-  //   const singlUrl = urls.find(url => {
-  //     return url.url
-  //   })
-  //   return singlUrl;
-  // }
+  useEffect(() => {
+    const newData = formData?.map((singleFormData) => {
+      let xy = JsonData.logo.filter((jsonDataObj) => {
+        return jsonDataObj.url === singleFormData.clientName;
+      });
+      return { ...singleFormData, JsonData: xy };
+    });
+    setMergedData(newData);
+  }, [formData]);
+  console.log({ mergedData });
 
   const handleChange = (e) => {
-    const clientFound = formData.find(
+    const clientFound = mergedData.find(
       (client) => client.clientName === e.target.value
     );
-
     console.log(clientFound);
-    // if (e.target.value === 'clientName') {
     setCurrentUser(clientFound);
-    //   setActiveUser(clientFound)
-    // }
   };
 
-  console.log(currentUser);
+  console.log("data => ", currentUser?.userExpData);
 
   function healthStatus() {
     if (currentUser?.health === "good") {
       return <div className="overral-health-good"></div>;
     } else if (currentUser?.health === "moderate") {
-      return <div className="overral-health-mderate"></div>;
+      return <div className="overral-health-moderate"></div>;
     } else {
       return <div className="overral-health-critical"></div>;
     }
@@ -143,7 +143,11 @@ export default function TableContent() {
           <div className="dashboard" id="pagebreak">
             <div className="page-1">
               <div className="logoImage">
-                <img src={logoImage} alt="background" width="150px" />
+                <img
+                  src={currentUser?.JsonData[0]?.image}
+                  alt=" company logo"
+                  width="150px"
+                />
               </div>
               <img id="image" src={topImage} alt="background" width="100%" />
             </div>
@@ -312,7 +316,7 @@ export default function TableContent() {
                 <div>Total Downtime</div>
               </div>
               <div>
-                <div className="item">{"{10 hours}"}</div>
+                <div className="item">{currentUser?.tempoHours}</div>
                 <div>Billed on Development</div>
               </div>
               <div>
@@ -341,11 +345,11 @@ export default function TableContent() {
             <div>
               <div className="visual-title">Visuals</div>
               <div className="visual-subtitle">Uptime Monitoring</div>
-              <p>
+              {/* <p>
                 (Included only when there is has been an outage over the month.
                 The graph will show the uptime in percentage against time in
                 days.)
-              </p>
+              </p> */}
             </div>
             {/* graph 1 */}
             <div className="graphs">
@@ -430,38 +434,19 @@ export default function TableContent() {
                 <th>Task</th>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <div>
-                      <input className="maintenance-dates" type="date" />
-                    </div>
-                  </td>
-                  <td>Contact form tested</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div>
-                      <input className="maintenance-dates" type="date" />
-                    </div>
-                  </td>
-                  <td>Speed test performed</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div>
-                      <input className="maintenance-dates" type="date" />
-                    </div>
-                  </td>
-                  <td>Navigation tested</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div>
-                      <input className="maintenance-dates" type="date" />
-                    </div>
-                  </td>
-                  <td>Image optimisation test performed</td>
-                </tr>
+                {currentUser?.userExpData?.map((item) => (
+                  console.log(item),
+                  item?.map((new_item, x) => {
+                    console.log({new_item});
+                    return (
+                      <tr key={x}>
+                        <td>{new_item['date']}</td>
+                        <td>{new_item['testName']}</td>
+                      </tr>
+                    );
+
+                  })
+                ))}
               </tbody>
             </table>
           </div>

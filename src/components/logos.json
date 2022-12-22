@@ -1,0 +1,49 @@
+{
+    "logo" : [
+        {
+            "image": "/logo/acquiretek.png",
+            "url": "https://acquiretek.com/"
+        },
+        {
+            "image": "/logo/CarveOS logo.png",
+            "url": "https://carveos.com/"
+        },
+        {
+            "image": "/logo/chally logo.png",
+            "url": "https://chally.com/"
+        },
+        {
+            "image": "/logo/CJ Rush logo.png",
+            "url": "https://www.cjrush.com/"
+        },
+        {
+            "image": "/logo/clt impact logo.png",
+            "url": "https://cltimpact.com/"
+        },
+        {
+            "image": "/logo/clt rising logo1.png",
+            "url": "https://cltrising.com/"
+        },
+        {
+            "image": "/logo/griffin logo.png",
+            "url": "https://griffinsolutionsgroup.com/"
+        },
+        {
+            "image": "/logo/lock up red.png",
+            "url": "http://thejitu.com/"
+        },
+        {
+            "image": "/logo/ten oaks logo.png",
+            "url": "https://tenoaksgroup.com/"
+        },
+        {
+            "image": "/logo/THH logo.png",
+            "url": "https://thh-llc.com/"
+        }
+        ,
+        {
+            "image": "/logo/USLS logo.png",
+            "url": "https://uslogisticssolutions.com/"
+        }
+    ]
+}

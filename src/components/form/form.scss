@@ -1,101 +1,132 @@
 .form_div {
-    background: url(../../assets/images/bg.svg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    width: 100vw !important;
-    margin-left: 0px !important;
-    margin-right: 0px !important;
-    .container {
-      .form__row {
-        padding-top: 2rem;
-        .form__left {
-          height: 95vh;
-          padding: 1rem;
-          background-color: white;
-          border-radius: 4px;
-          overflow: hidden;
-          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-          h6 {
-            color: #bf1e2e;
-            margin-top: 1rem;
-            text-align: center;
-            font-weight: 400;
-            margin-bottom: 1rem;
-          }
-          select {
-            &:focus {
-              box-shadow: 0 0 0 0.25rem rgb(255 0 0);
-              border: none !important;
-            }
-            &:active {
-              // border-color: transparent !important;
-              box-shadow: 0 0 0 0.25rem rgb(255 0 0);
-              border: none !important;
-            }
-  
-            background-color: white;
-  
-            option {
-              &:hover {
-                background-color: #bf1e2e !important;
-                color: white !important;
-              }
-            }
-          }
+  background: url(../../assets/images/bg.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  .container {
+    .form__row {
+      padding-top: 2rem;
+      .form__left {
+        height: 95vh;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+          display: none;
         }
-        .form_napshot {
-          padding: 1rem;
-          label {
-            color: #bf1e2e;
-            margin-top: 1.5rem;
-            margin-bottom: 1.5rem;
-          }
-          .form-control {
-            &:focus {
-              // border-color: transparent !important;
-              box-shadow: 0 0 0 0.25rem rgb(255 0 0);
-              border: none !important;
-            }
-          }
+        h6 {
+          color: #bf1e2e;
+          margin-top: 1rem;
+          text-align: center;
+          font-weight: 400;
+          margin-bottom: 1rem;
         }
-        button {
-          width: 50%;
-          margin-top: 2rem;
-          margin-left: 2rem;
+        .plus_btn {
           background-color: #bf1e2e !important;
-          transition: all 1s;
+          width: 40px;
+          height: 40px;
+          display: flex !important;
+          color: white;
+          align-items: center !important;
+          justify-content: center !important;
+          font-weight: bold;
+          font-size: 23px;
+          border-radius: 50%;
+          border: none;
           &:hover {
-            border: 1px solid #bf1e2e;
             background-color: white !important;
             color: #bf1e2e !important;
+            border: 1px solid #bf1e2e !important;
+          }
+        }
+        select {
+          &:focus {
+            box-shadow: 0 0 0 0.25rem rgb(255 0 0);
+            border: none !important;
+          }
+          &:active {
+            // border-color: transparent !important;
+            box-shadow: 0 0 0 0.25rem rgb(255 0 0);
+            border: none !important;
+          }
+
+          background-color: white;
+
+          option {
+            &:hover {
+              background-color: #bf1e2e !important;
+              color: white !important;
+            }
           }
         }
       }
-    }
-    .form__right {
-      margin-top: 0 !important;
-  
-      .table {
-        margin-top: 0 !important;
-        width: 100% !important;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        border: none !important;
-        background-color: white;
-        thead {
-          background-color: #bf1e2e !important;
-          color: white;
+      .form_napshot {
+        padding: 1rem;
+        label {
+          color: #bf1e2e;
+          margin-top: 1.5rem;
+          margin-bottom: 1.5rem;
         }
-        tbody {
-          tr {
-            border-bottom: 1px solid #bf1e2e;
-            td {
-              text-align: left;
-              border: none !important;
-            }
+        .form-control {
+          &:focus {
+            // border-color: transparent !important;
+            box-shadow: 0 0 0 0.25rem rgb(255 0 0);
+            border: none !important;
+          }
+        }
+      }
+      .expreience_inputs {
+        margin-left: 2px;
+        input {
+          box-shadow: none;
+          &:focus {
+            // border-color: transparent !important;
+            box-shadow: 0 0 0 0.25rem rgb(255 0 0);
+            border: none !important;
+          }
+        }
+      }
+      button {
+        width: 50%;
+        margin-top: 2rem;
+        margin-left: 2rem;
+        background-color: #bf1e2e !important;
+        transition: all 1s;
+        &:hover {
+          border: 1px solid #bf1e2e;
+          background-color: white !important;
+          color: #bf1e2e !important;
+        }
+      }
+    }
+  }
+  .form__right {
+    margin-top: 0 !important;
+
+    .table {
+      margin-top: 0 !important;
+      width: 100% !important;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      border: none !important;
+      background-color: white;
+      thead {
+        background-color: #bf1e2e !important;
+        color: white;
+      }
+      tbody {
+        tr {
+          border-bottom: 1px solid #bf1e2e;
+          td {
+            border: none !important;
           }
         }
       }
     }
   }
-  
+}
