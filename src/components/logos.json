@@ -2,7 +2,8 @@
     "logo" : [
         {
             "image": "/logo/acquiretek.png",
-            "url": "https://acquiretek.com/"
+            "url": "https://acquiretek.com/",
+            "name": "Acquiretek"
         },
         {
             "image": "/logo/CarveOS logo.png",
@@ -14,7 +15,8 @@
         },
         {
             "image": "/logo/CJ Rush logo.png",
-            "url": "https://www.cjrush.com/"
+            "url": "https://www.cjrush.com/",
+            "name": "CJ Rush"
         },
         {
             "image": "/logo/clt impact logo.png",
@@ -26,11 +28,13 @@
         },
         {
             "image": "/logo/griffin logo.png",
-            "url": "https://griffinsolutionsgroup.com/"
+            "url": "https://griffinsolutionsgroup.com/",
+            "name": "gf"
         },
         {
             "image": "/logo/lock up red.png",
-            "url": "http://thejitu.com/"
+            "url": "http://thejitu.com/",
+            "name": "THE Jitu"
         },
         {
             "image": "/logo/ten oaks logo.png",

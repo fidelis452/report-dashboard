@@ -50,17 +50,17 @@ export default function TableContent() {
 
   useEffect(() => {
     axios.get(`${url}/dashboard/serverResponse`).then(function (res) {
-      const serverResponseData = res.data.map((item) => ({
-        ...item,
-        date_joined: dateformater(item.date_joined),
+      const serverResponseData = res.data.map((item1) => ({
+        ...item1,
+        date_added: dateformater(item1.date_added),
       }));
       setServerRes(serverResponseData);
-      // console.log({ serverRes });
-      const downtime = res.data.reduce(
-        (total = 0, item) => (total += item.response_time),
-        0
-      );
-      setServerDowntime(downtime);
+      console.log("server = >", { serverRes });
+      // const downtime = res.data.reduce(
+      //   (total = 0, item) => (total += item.response_time),
+      //   0
+      // );
+      // setServerDowntime(downtime);
       // console.log({downtime});
     });
   }, []);
@@ -72,11 +72,11 @@ export default function TableContent() {
         date: dateformater(item.date),
       }));
       setAttempts(formattedData);
-      const hackAttempts = res.data.reduce(
-        (total = 0, item) => (total += item.numberOfRetries),
-        0
-      );
-      setLoginAttempts(hackAttempts);
+      // const hackAttempts = res.data.reduce(
+      //   (total = 0, item) => (total += item.numberOfRetries),
+      //   0
+      // );
+      // setLoginAttempts(hackAttempts);
       // console.log({ hackAttempts });
     });
   }, []);
@@ -92,15 +92,32 @@ export default function TableContent() {
   const new1 = formData?.map((data) => ({
     url: data.clientName,
   }));
+  
 
   useEffect(() => {
     const newData = formData?.map((singleFormData) => {
       let xy = JsonData.logo.filter((jsonDataObj) => {
-        return jsonDataObj.url === singleFormData.clientName;
+        return jsonDataObj.name === singleFormData.clientName;
       });
       return { ...singleFormData, JsonData: xy };
     });
-    setMergedData(newData);
+
+    const withServerResponse = newData?.map((item) => {
+      let server_response = serverRes?.filter((single_server_response) => {
+        return single_server_response.client_name === item.clientName
+      })
+      return {...item, server_response: server_response }
+    })
+
+    // const withLoginAttempts = withServerResponse.map((item1) => {
+    //   let login_attempts = attempts.filter((single_attempt) => {
+    //     return single_attempt.client_name === item1.clientName
+    //   })
+    //   return {...item1, login_attempts: login_attempts }
+    // })
+
+    setMergedData(withServerResponse);
+
   }, [formData]);
   console.log({ mergedData });
 
@@ -108,11 +125,11 @@ export default function TableContent() {
     const clientFound = mergedData.find(
       (client) => client.clientName === e.target.value
     );
-    console.log(clientFound);
+    // console.log(clientFound);
     setCurrentUser(clientFound);
   };
 
-  console.log("data => ", currentUser?.userExpData);
+  // console.log("data => ", currentUser?.userExpData);
 
   function healthStatus() {
     if (currentUser?.health === "good") {
@@ -126,6 +143,7 @@ export default function TableContent() {
   const handleGeneratePdf = useReactToPrint({
     content: () => Index.current,
   });
+  console.log("cuur" , {currentUser});
   return (
     <div>
       <ReactToPrint>
@@ -321,7 +339,7 @@ export default function TableContent() {
               </div>
               <div>
                 <div className="item">{loginAttempts}</div>
-                <div>Hack attempts prevented</div>
+                <div>Login attempts prevented</div>
               </div>
               <div>
                 <div className="item">{currentUser?.backupsTaken}</div>
@@ -355,7 +373,7 @@ export default function TableContent() {
             <div className="graphs">
               <div className="graph-title">Server Response Time</div>
               <div>
-                <LineChart width={700} height={300} data={serverRes}>
+                <LineChart width={700} height={300} data={currentUser?.server_response}>
                   <Line
                     type="monotone"
                     dataKey="response_time"
@@ -363,7 +381,7 @@ export default function TableContent() {
                     strokeWidth={2}
                   />
                   <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                  <XAxis dataKey="date_joined" />
+                  <XAxis dataKey="date_added" />
                   <YAxis />
                   <Tooltip />
                   <Legend />

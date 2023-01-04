@@ -5,7 +5,7 @@ import "./form.scss";
 
 const Form = () => {
   const [clients, setClients] = useState([{ clientname: "select a client" }]);
-  const [currentClient, setCurrentClient] = useState(null);
+  const [currentClient, setCurrentClient] = useState();
   const [lastTime] = useState(null);
   const [backupsTaken] = useState(null);
   const [newData, setNewData] = useState();
@@ -24,6 +24,7 @@ const Form = () => {
     backupsTaken: "",
     formTested: "",
     tempoHours: "",
+    id: ""
   };
 
   // function to add more fields on the user experience tests
@@ -36,7 +37,7 @@ const Form = () => {
     axios
       .get("http://localhost:4000/dashboard/fetchClients")
       .then(function (res) {
-        console.log(res.data);
+        // console.log(res.data);
         const newArray = res.data.map((user) => ({
           id: user._id,
           username: user.username,
@@ -44,8 +45,8 @@ const Form = () => {
           clientname: user.clientname,
         }));
         console.log({ newArray });
-        setClients([...clients, ...newArray]);
         console.log({ clients });
+        setClients([...clients, ...newArray]);
       });
   }, []);
 
@@ -53,7 +54,7 @@ const Form = () => {
     if (e.target.name === "clientName") {
       setCurrentClient(e.target.value);
       setUserExperience([{ testName: "", date: "" }]);
-      // setClient(currentClient)
+
       const isFound = clientData.find(
         (client) => client.clientName === e.target.value
       );
@@ -62,6 +63,7 @@ const Form = () => {
           ...prev,
           { ...dataBlueprint, clientName: e.target.value },
         ]);
+
       }
     } else {
       setClientData(
@@ -93,35 +95,41 @@ const Form = () => {
     }
   };
 
+  console.log({ clientData });
+
   const handleTestChange = (e, index) => {
     const newValues = [...userExperience];
     newValues[index][e.target.name] = e.target.value;
     setUserExperience(newValues);
-    // setClient(currentClient);
+
+    setClient(currentClient);
+
     setMyData([{ client: currentClient, userExperience }]);
 
     const merges = clientData?.map((data) => {
-      // console.log(data);
+
       let y = myData.filter((mydataonj) => {
-        console.log(mydataonj);
+        console.log({ myData });
         return mydataonj.client === data.clientName;
       });
       console.log({ y });
       return { ...data, userExpData: y.map((data) => data.userExperience) };
     });
-    setNewData(merges);
-    // console.log({merges});
+    console.log({ merges });
+
+    setClientData(merges);
   };
+
+  useEffect(() => {
+    setClientData(JSON.parse(localStorage.getItem("data")) ?? []);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("data", JSON.stringify(newData));
+    localStorage.setItem("data", JSON.stringify(clientData));
     navigate("/");
   };
 
-  // useEffect(() => {
-  //   setNewData(JSON.parse(localStorage.getItem("data")) ?? []);
-  // }, []);
 
 
   return (
@@ -140,7 +148,7 @@ const Form = () => {
                   onChange={handleChange}
                 >
                   {clients.map((client, index) => (
-                    <option value={client.clientname} key={index}>
+                    <option value={client.id} key={index}>
                       {client.clientname}
                     </option>
                   ))}
@@ -254,7 +262,7 @@ const Form = () => {
                             onChange={(e) => handleTestChange(e, index)}
                             value={userExperience.testName}
                             className="form-control"
-                            // onChange={(e) => handleChange(e, index)}
+                          // onChange={(e) => handleChange(e, index)}
                           />
                         </div>
                       </div>
@@ -267,7 +275,7 @@ const Form = () => {
                             onChange={(e) => handleTestChange(e, index)}
                             value={userExperience.date}
                             className="form-control"
-                            // onChange={(e) => handleChange(e, index)}
+                          // onChange={(e) => handleChange(e, index)}
                           />
                         </div>
                       </div>
@@ -290,6 +298,21 @@ const Form = () => {
           </div>
           {/* begining of the right side  */}
           <div className="col-md-7 form__right">
+
+          <div className="row">
+              {/* modal button  */}
+              <div className="col-md-5 bg-light mb-5">
+                <button
+                  type="button"
+                  class="btn btn-primary client__btn"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                >
+                  Add Client
+                </button>
+              </div>
+              {/* end of modal button  */}
+            </div>
             <table className="table text-center ">
               <thead>
                 <tr>
@@ -303,24 +326,81 @@ const Form = () => {
                 </tr>
               </thead>
               <tbody>
-                {clientData?.map((singledata, index) => {
-                  return (
-                    <tr key={index}>
-                      {/* <td>{index}</td> */}
-                      <td>{singledata["clientName"]}</td>
-                      <td>{singledata["health"]}</td>
-                      <td>{singledata["lastTime"]}</td>
-                      <td>{singledata["backupsTaken"]}</td>
-                      <td>{singledata["formTested"]}</td>
-                      <td>{singledata["tempoHours"]}</td>
-                    </tr>
-                  );
-                })}
+                {
+                  // [...(newData || []), ...clientData]
+                  clientData?.map((singledata, index) => {
+                    return (
+                      <tr key={index}>
+                        {/* <td>{index}</td> */}
+                        <td>{singledata["clientName"]}</td>
+                        <td>{singledata["health"]}</td>
+                        <td>{singledata["lastTime"]}</td>
+                        <td>{singledata["backupsTaken"]}</td>
+                        <td>{singledata["formTested"]}</td>
+                        <td>{singledata["tempoHours"]}</td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
         </div>
       </div>
+
+      {/* modal content  */}
+
+      <div
+        class="modal fade modal__form"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Add A New Client
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form action="">
+                <div className="form-group">
+                  <label htmlFor="">Client Name:</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="">Url:</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="">Client Name:</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="">Username:</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="">Password:</label>
+                  <input type="password" className="form-control" />
+                </div>
+                <div className="row">
+                  <button className="add__btn">Add</button>
+                </div>
+              </form>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      {/* end of modal content   */}
     </div>
   );
 };

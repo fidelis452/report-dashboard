@@ -104,10 +104,26 @@
           color: #bf1e2e !important;
         }
       }
+      .client__btn {
+        margin-top: 0px;
+        margin-bottom: 1rem;
+        border: none !important;
+        box-shadow: none !important;
+
+        &:hover {
+          border: 1px solid #bf1e2e !important;
+          color: #bf1e2e;
+        }
+      }
     }
   }
   .form__right {
     margin-top: 0 !important;
+    height: 90vh;
+    overflow: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .table {
       margin-top: 0 !important;
@@ -115,6 +131,7 @@
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
       border: none !important;
       background-color: white;
+      
       thead {
         background-color: #bf1e2e !important;
         color: white;
@@ -126,6 +143,42 @@
             border: none !important;
           }
         }
+      }
+    }
+  }
+  .modal__form{
+    h5{
+      color: #bf1e2e !important;
+    }
+    label{
+      color: #bf1e2e;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+    input{
+      box-shadow: none;
+      &:focus {
+        // border-color: transparent !important;
+        box-shadow: 0 0 0 0.25rem rgb(255 0 0);
+        border: none !important;
+      }
+      
+    }
+    .add__btn{
+      margin-left: 0.6rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      width: 30%;
+      border: none;
+      background-color: #bf1e2e;
+      color: white;
+      border-radius: 4px;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      &:hover{
+        border: 1px solid #bf1e2e !important;
+        color: #bf1e2e;
+        background-color: white;
       }
     }
   }
