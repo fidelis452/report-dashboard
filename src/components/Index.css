@@ -213,15 +213,15 @@ td {
 
 .item {
   font-size: 30px;
-  font-weight: 500;
-  color: tomato;
+  font-weight: 600;
+  color: black;
 }
 .date {
   padding: 1rem;
   border: none;
-  color: tomato;
+  color: black;;
   font-size: 25px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .times-tested {
   padding: 1rem;

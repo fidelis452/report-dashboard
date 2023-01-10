@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { DatePicker, message } from 'antd';
 import {
   CartesianGrid,
   Legend,
@@ -10,7 +9,6 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-
 } from "recharts";
 
 import "./Index.css";
@@ -18,12 +16,6 @@ import topImage from "../files/Acquiretek-Test.png";
 import logoImage from "../files/MicrosoftTeams-image.png";
 import JsonData from "./logos.json";
 import ReactToPrint, { useReactToPrint } from "react-to-print";
-import moment from "moment/moment";
-import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
-
-const { RangePicker } = DatePicker;
 
 export default function TableContent() {
   // console.log(JsonData);
@@ -38,12 +30,9 @@ export default function TableContent() {
   // const [clients, setClients] = useState([{ name: "select a client" }]);
   const [formData, setFormData] = useState();
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
   const [mergedData, setMergedData] = useState();
   const [currentUser, setCurrentUser] = useState();
   const [activeUser, setActiveUser] = useState();
-  const [dates, setDates] = useState([])
-  const [filteredData, setFilteredData] = useState([])
   const current = new Date();
   const month = current.toLocaleString("en-US", { month: "short" });
   const year = `${current.getFullYear()}`;
@@ -56,82 +45,89 @@ export default function TableContent() {
 
   const dateformater = (dateString) => {
     const date = new Date(dateString);
-    const day = date.getDate()
-    const month = date.getMonth()
-    const year = date.getFullYear()
-    return `${year}/${month}/${day}`;
+    return date.getDate();
   };
-
+  
   useEffect(() => {
     axios.get("http://localhost:4000/dashboard/serverResponse")
-      .then(res => {
-        const serverResponseData = res.data.map((item1) => ({
-          ...item1,
-          date_added: dateformater(item1.date_added),
-        }));
-        setServerRes(serverResponseData);
-        setTimeout(() => {
-        }, 2000);
-      });
+    .then(res=> {
+      const serverResponseData = res.data.map((item1) => ({
+        ...item1,
+        date_added: dateformater(item1.date_added),
+      }));
+     setServerRes(serverResponseData);
+     setTimeout(() => {
+      // console.log();
+    }, 2000);
+    });
   }, []);
+
+  // console.log({serverRes});
+
+  // daniel my way 
+  // useEffect(() =>{
+  //    axios.get("http://localhost:4000/dashboard/serverResponse")
+  //     .then(response => {
+  //       const data = response.data
+  //       console.log(data);
+  //   })
+  // },[])
+
+  // const fetchData = async () =>{
+  //   await fetch("http://localhost:4000/dashboard/serverResponse")
+  //   .then(res => res.json())
+  //   .then(result => {
+  //     for(let item of result){
+  //       serverRes.push(item)
+  //       setTimeout(() => {
+  //         // console.log();
+  //       }, 2000);
+  //     }
+  //   })
+  //   .catch(error =>{
+  //     console.log(error);
+  //   })
+  // }
+  
+  // useEffect(() =>{
+  //   fetchData()
+  // },[])
+  // en of daniel my way 
+
+    // const downtime = res.data.reduce(
+    //   (total = 0, item) => (total += item.response_time),
+    //   0
+    // );
+    // setServerDowntime(downtime);
+    // console.log({downtime});
 
   useEffect(() => {
     axios.get("http://localhost:4000/dashboard/loginAttempts")
-      .then(function (res) {
-        const formattedData = res.data.map((item) => ({
-          ...item,
-          date: dateformater(item.date),
-        }));
-        setAttempts(formattedData);
-        setTimeout(() => {
-        }, 2000);
-      });
+    .then(function (res) {
+      const formattedData = res.data.map((item) => ({
+        ...item,
+        date: dateformater(item.date),
+      }));
+      setAttempts(formattedData);
+      setTimeout(() => {
+        // console.log();
+      }, 2000);
+    });
   }, []);
 
-  useEffect(() => {
-    try {
-      axios.get("http://localhost:4000/dashboard/serverDowntime")
-      .then(res => {
-        const serverDowntimeData = res.data.map((item1) => ({
-          ...item1,
-          date_added: dateformater(item1.date_added),
-        }));
-        setServerDowntime(serverDowntimeData);
-        setTimeout(() => {
-        }, 2000);
-      })
-    } catch (error) {
-      console.log(error);
-    }
-  })
-  // useEffect(() => {
-  //   axios.get("http://localhost:4000/dashboard/serverDowntime")
-  //     .then(res => {
-  //       const serverDowntimeData = res.data.map((item1) => ({
-  //         ...item1,
-  //         date_added: dateformater(item1.date_added),
-  //       }));
-  //       setServerDowntime(serverDowntimeData);
-  //       setTimeout(() => {
-  //       }, 2000);
-  //     }).catch((err) => {
-  //       console.log(err);
-  //     })
-  // }, []);
-  console.log(serverDowntime);
-
+  // console.log("attempts" , {attempts});
   useEffect(() => {
     const lsData = localStorage.getItem("data");
 
     setFormData(JSON.parse(lsData));
   }, []);
 
+  // console.log(formData);
 
   const new1 = formData?.map((data) => ({
     url: data.clientName,
   }));
-
-
+  
 
   useEffect(() => {
     const newData = formData?.map((singleFormData) => {
@@ -145,61 +141,37 @@ export default function TableContent() {
       let server_response = serverRes.filter((single_server_response) => {
         return single_server_response?.client_name === item?.clientName
       })
-      return { ...item, server_response: server_response }
+      return {...item, server_response: server_response }
     })
 
+    // console.log(withServerResponse);
+    
     const withLoginAttempts = withServerResponse?.map((item) => {
       let login_attempts = attempts.filter((single_attempt) => {
         return single_attempt?.clientname === item?.clientName
       })
-      return { ...item, login_attempts: login_attempts }
+      console.log({login_attempts});
+      return {...item, login_attempts: login_attempts }
     })
-
+    
     setMergedData(withLoginAttempts);
-    // setActiveUser(withLoginAttempts)
+    
+  }, [formData,serverRes, attempts]);
 
-  }, [formData, serverRes, attempts]);
+ 
 
+  console.log({attempts});
   console.log({ mergedData });
-  const handleSelect = (values) => {
-    setDates(values.map(item => {
-      return item.format("YYYY/MM/DD")
-    }))
-  }
-
-  const selectionRange = {
-    startDate: new Date(dates[0]),
-    endDate: new Date(dates[1]),
-  }
-
-  // console.log(selectionRange);
-
-
-  const filtered = mergedData?.map(item => {
-    const server_response = item?.server_response?.filter(item1 => {
-      const date = new Date(item1?.date_added)
-      return date >= selectionRange?.startDate &&
-        date <= selectionRange?.endDate;
-    })
-    const login_attempts = item?.login_attempts?.filter(item2 => {
-      const date = new Date(item2?.date)
-      return date >= selectionRange?.startDate &&
-        date <= selectionRange?.endDate;
-    })
-    return { ...item, server_response: server_response, login_attempts: login_attempts }
-
-  })
-
-  // console.log({ filtered });
 
   const handleChange = (e) => {
-    const clientFound = filtered.find(
+    const clientFound = mergedData.find(
       (client) => client.clientName === e.target.value
     );
+    // console.log(clientFound);
     setCurrentUser(clientFound);
   };
 
-  console.log(currentUser);
+  // console.log("data => ", currentUser.serverRes);
 
   function healthStatus() {
     if (currentUser?.health === "good") {
@@ -224,33 +196,19 @@ export default function TableContent() {
   const handleGeneratePdf = useReactToPrint({
     content: () => Index.current,
   });
-
+  console.log("cuur" , {currentUser});
   return (
     <div>
       <ReactToPrint>
         <div className="radiobtn">
-
-        <div className="col-md-6">
-            <RangePicker
-              ranges={[selectionRange]}
-              onChange={handleSelect}
-            >
-            </RangePicker >
-          </div>
-
-          <div>
-            <label for="clients">Select the Client: </label>
-            <select id="clients" name="clientName" onChange={handleChange}>
-              {filtered?.map((item, index) => (
-                <option value={item.clientName} key={index}>
-                  {item.clientName}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          
-
+          <label for="clients">Select the Client: </label>
+          <select id="clients" name="clientName" onChange={handleChange}>
+            {new1?.map((item, index) => (
+              <option value={item.url} key={index}>
+                {item.url}
+              </option>
+            ))}
+          </select>
         </div>
         <div ref={Index}>
           <div className="dashboard" id="pagebreak">
@@ -343,7 +301,7 @@ export default function TableContent() {
           <div className="contentpage" id="pagebreak">
             <div>
               <div>
-                <div className="name">{currentUser?.clientName}</div>
+                <div className="name">Acquiretek</div>
                 <div className="name">WEBSITE SECURITY REPORT</div>
               </div>
               <div className="date">{date}</div>
@@ -357,7 +315,7 @@ export default function TableContent() {
               </h1>
               <div className="intro">
                 <p>
-                  This is the Monthly Maintenance Report of {currentUser?.clientName} as of{" "}
+                  This is the Monthly Maintenance Report of Acquiretek as of{" "}
                   {date}. This report covers various sections of WordPress
                   Website Maintenance with a focus on security hardening.
                 </p>
@@ -425,8 +383,8 @@ export default function TableContent() {
             <div className="snapshot">Snapshot</div>
             <div class="grid-container">
               <div>
-                <div className="item">{total_serverResponseTime?.toFixed(2)}
-                </div>
+                <div className="item">{total_serverResponseTime.toFixed(2)}
+                  </div>
                 <div>Total Downtime</div>
               </div>
               <div>
@@ -459,6 +417,11 @@ export default function TableContent() {
             <div>
               <div className="visual-title">Visuals</div>
               <div className="visual-subtitle">Uptime Monitoring</div>
+              {/* <p>
+                (Included only when there is has been an outage over the month.
+                The graph will show the uptime in percentage against time in
+                days.)
+              </p> */}
             </div>
             {/* graph 1 */}
             <div className="graphs">
@@ -466,21 +429,14 @@ export default function TableContent() {
               <div>
                 <LineChart width={700} height={300} data={currentUser?.server_response}>
                   <Line
-                    // type="monotone"
+                    type="monotone"
                     dataKey="response_time"
                     stroke="blue"
-                    strokeWidth={1}
+                    strokeWidth={2}
                   />
-                  <CartesianGrid stroke="#ccc" strokeDasharray="2,2" />
-                  <XAxis
-                    dataKey="date_added"
-                    position="insideTop"
-                    fontSize="10px"
-                    interval={0}
-                    label={{ value: "Dates", offset: "0", position: 'insideBottom' }}
-                  />
-                  <YAxis label={{ value: "No of Login attempts", angle: -90, position: 'insideLeft', style: { textAnchor: 'start' } }}
-                  />
+                  <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                  <XAxis dataKey="date_added" />
+                  <YAxis />
                   <Tooltip />
                   <Legend />
                 </LineChart>
@@ -492,17 +448,13 @@ export default function TableContent() {
               <div>
                 <LineChart width={700} height={300} data={currentUser?.login_attempts}>
                   <Line
-                    // type="monotone"
+                    type="monotone"
                     dataKey="numberOfRetries"
                     stroke="blue"
-                    strokeWidth={1}
+                    strokeWidth={2}
                   />
-                  <CartesianGrid stroke="#ccc" strokeDasharray="2,2" />
-                  <XAxis dataKey={"date"}
-                    position="insideTop"
-                    fontSize="10px"
-                    interval={0}
-                  />
+                  <CartesianGrid stroke="#ccc" strokeDasharray="5,5" />
+                  <XAxis dataKey={"date"} />
                   <YAxis />
                   <Tooltip />
                   <Legend />
