@@ -279,11 +279,7 @@ export default function TableContent() {
                   width="150px"
                 />
               </div>
-<<<<<<< HEAD
-              <img className="bg-image" id="image" src={topImage} alt="background" width="100%" />
-=======
               <img id="image" className="bg-image" src={topImage} alt="background" width="100%" />
->>>>>>> facdbaed6370d4f6f3312152a54b690d7ba9b5ff
             </div>
             <div className="time">
               <div>{month}</div>
@@ -497,24 +493,25 @@ export default function TableContent() {
               <div>
                 <LineChart width={700} height={300} data={currentUser?.server_response}>
                   <Line
-                    // type="monotone"
+                    type="monotone"
                     dataKey="response_time"
                     stroke="blue"
                     strokeWidth={1}
                   />
                   <CartesianGrid stroke="#ccc" strokeDasharray="2,2" />
                   <XAxis
-                    dataKey="date_added"
+                    dataKey={'date_added'}
                     position="insideTop"
-                    fontSize="9px"
+                    fontSize="7px"
                     interval={0}
-                    angle="90"
-                    label={{ value: "Days", offset: "0", position: 'insideBottom' }}
+                    // angle="60"
+                    tickMargin={10}
+                    label={{ value: "Days", tickMargin: 20, fontSize: 10, offset: "-4", position: 'insideBottom' }}
                   />
-                  <YAxis label={{ value: "Server response time (ms) ", angle: -90, position: 'insideLeft', style: { textAnchor: 'start' } }}
+                  <YAxis label={{ value: "Server response time (ms) ", inset: "-10", angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }}
                   />
                   <Tooltip />
-                  <Legend />
+                  {/* <Legend /> */}
                 </LineChart>
               </div>
             </div>
@@ -524,7 +521,7 @@ export default function TableContent() {
               <div>
                 <LineChart width={700} height={300} data={currentUser?.login_attempts}>
                   <Line
-                    // type="monotone"
+                    type="monotone"
                     dataKey="numberOfRetries"
                     stroke="blue"
                     strokeWidth={1}
@@ -532,13 +529,14 @@ export default function TableContent() {
                   <CartesianGrid stroke="#ccc" strokeDasharray="2,2" />
                   <XAxis dataKey={"date"}
                     position="insideTop"
-                    fontSize="10px"
+                    fontSize="7px"
                     interval={0}
-                    label={{ value: "Days", offset: "0", position: 'insideBottom' }}
+                    tickMargin={10}
+                    label={{ value: "Days", fontSize: 10, offset: "-4", position: 'insideBottom' }}
                   />
-                  <YAxis label={{ value: "Number of Login Attempts ", angle: -90, position: 'insideLeft', style: { textAnchor: 'start' } }} />
+                  <YAxis label={{ value: "Number of Login Attempts ", angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }} />
                   <Tooltip />
-                  <Legend />
+                  {/* <Legend /> */}
                 </LineChart>
               </div>
             </div>

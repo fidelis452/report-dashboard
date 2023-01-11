@@ -2,9 +2,6 @@
   display: flex;
     padding: 10px;
 }
-.bg-image{
-  height: 66rem;
-}
 .logoImage {
   position: absolute;
 }
@@ -13,8 +10,8 @@
   /* background-color: rgb(67, 106, 141); */
 }
 .time {
-  margin-top: -29rem;
-  margin-left: 30%;
+  margin-top: -31rem;
+  margin-left: 32%;
   font-size: 3.5rem;
   font-weight: 400;
   color: white;
@@ -36,7 +33,7 @@
 
 .bg-image{
   height: 66rem;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .table-content {
@@ -47,7 +44,7 @@
 }
 .heading {
   margin-top: 2rem;
-  margin-bottom: 5rem;
+  margin-bottom: 1rem;
   color: rgb(107, 107, 255);
   font-weight: 800;
   font-size: 2rem;
@@ -112,11 +109,7 @@ div > a {
   text-transform: uppercase;
   font-weight: 500;
   font-size: 1.5rem;
-<<<<<<< HEAD
-  /* margin: 3.5rem 0rem 1rem 0rem; */
-=======
   margin: .5rem 0rem .25rem 0rem;
->>>>>>> facdbaed6370d4f6f3312152a54b690d7ba9b5ff
 }
 .intro {
 }
@@ -235,7 +228,7 @@ td {
 .date {
   padding: 0rem;
   border: none;
-  margin-bottom: -10px;
+  /* margin-bottom: -10px; */
   /* background-color: fuchsia; */
   color: black;;
   font-size: 25px;
@@ -337,17 +330,7 @@ td {
     page-break-before: always !important;
     page-break-inside: avoid !important;
     font-family: calibri;
-    counter-increment: page;
-    content: counter(page);
-    margin-top: 2rem;
-  }
-  #pagebreak {
-    display: block;
-    break-before: always !important;
-    page-break-before: always !important;
-    page-break-inside: avoid !important;
-    font-family: calibri;
-    margin-top: 3rem !important;
+    margin-top: 5rem !important;
     counter-increment: page;
     content: counter(page);
     /* overflow: visible; */
@@ -360,13 +343,8 @@ td {
     /* overflow: */
   }
   #pagebreak:after {
-<<<<<<< HEAD
-    counter-increment: page;
-    content: "Page " counter(page);
-=======
-    /* counter-increment: page; */
-    /* content: "Page " counter(page); */
->>>>>>> facdbaed6370d4f6f3312152a54b690d7ba9b5ff
+    /* counter-increment: page;
+    content: "Page " counter(page); */
     left: 0;
     margin-bottom: 3rem;
     white-space: nowrap;
