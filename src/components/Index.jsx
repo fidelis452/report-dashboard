@@ -279,7 +279,11 @@ export default function TableContent() {
                   width="150px"
                 />
               </div>
+<<<<<<< HEAD
               <img className="bg-image" id="image" src={topImage} alt="background" width="100%" />
+=======
+              <img id="image" className="bg-image" src={topImage} alt="background" width="100%" />
+>>>>>>> facdbaed6370d4f6f3312152a54b690d7ba9b5ff
             </div>
             <div className="time">
               <div>{month}</div>
