@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Login.scss';
 import LoginSvg from '../../assets/images/login.svg'
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const [data, setData] = useState({
+    username: "",
+    password: ""
+  })
   const navigate = useNavigate();
 
   const handleRedirection = () => {
@@ -22,11 +26,11 @@ const Login = () => {
           <form action="">
             <div className="form-group">
               <label className='form-label' htmlFor="">Username:</label>
-              <input className='form-control' type="text" placeholder='username' />
+              <input className='form-control' type="text" placeholder='username' value={data.username}/>
             </div>
             <div className="form-group">
               <label className='form-label' htmlFor="">Password:</label>
-              <input className='form-control' type="password" placeholder='Password' />
+              <input className='form-control' type="password" placeholder='Password' value={data.password}/>
             </div>
             <div className="form-group">
               <button className='btn btn-danger' onClick={handleRedirection}>Login</button>

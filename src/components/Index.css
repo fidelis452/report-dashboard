@@ -1,3 +1,10 @@
+.filter{
+  display: flex;
+    padding: 10px;
+}
+.bg-image{
+  height: 66rem;
+}
 .logoImage {
   position: absolute;
 }
@@ -28,7 +35,7 @@
 }
 
 .table-content {
-  padding-top: 20%;
+  padding-top: 10%;
   text-transform: capitalize;
   /* font-family: Georgia; */
   margin: 3%;
@@ -100,7 +107,7 @@ div > a {
   text-transform: uppercase;
   font-weight: 500;
   font-size: 1.5rem;
-  margin: 3.5rem 0rem 1rem 0rem;
+  /* margin: 3.5rem 0rem 1rem 0rem; */
 }
 .intro {
 }
@@ -217,7 +224,7 @@ td {
   color: black;
 }
 .date {
-  padding: 1rem;
+  padding: 0rem;
   border: none;
   color: black;;
   font-size: 25px;
@@ -293,7 +300,7 @@ td {
   text-transform: uppercase;
   font-weight: 600;
   font-size: 1.5rem;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
 }
 .user-test {
   color: rgb(49, 49, 139);
@@ -302,14 +309,8 @@ td {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
-
-/* @media all{
-  #pagebreak{
-    display: none;
-  }
-} */
 @media print {
-  #pagebreak {
+  #pagebreak1 {
     display: block;
     break-before: always !important;
     page-break-before: always !important;
@@ -318,7 +319,16 @@ td {
     margin-top: 0rem !important;
     counter-increment: page;
     content: counter(page);
-    /* overflow: visible; */
+  }
+  #pagebreak {
+    display: block;
+    break-before: always !important;
+    page-break-before: always !important;
+    page-break-inside: avoid !important;
+    font-family: calibri;
+    counter-increment: page;
+    content: counter(page);
+    margin-top: 2rem;
   }
   html,
   body {
@@ -328,7 +338,7 @@ td {
     /* overflow: */
   }
   #pagebreak:after {
-    /* counter-increment: page; */
+    counter-increment: page;
     content: "Page " counter(page);
     left: 0;
     margin-bottom: 3rem;

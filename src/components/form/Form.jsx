@@ -148,7 +148,7 @@ const Form = () => {
                   onChange={handleChange}
                 >
                   {clients.map((client, index) => (
-                    <option value={client.id} key={index}>
+                    <option value={client.clientname} key={index}>
                       {client.clientname}
                     </option>
                   ))}
@@ -212,6 +212,7 @@ const Form = () => {
                 <div className="form-group">
                   <label htmlFor="">Last time Patched:</label>
                   <input
+                  placeholder="dd/mm/yyyy"
                     type="date"
                     name="lastTime"
                     className="form-control"
@@ -270,6 +271,7 @@ const Form = () => {
                         <div className="form-group">
                           <label htmlFor="">Date:</label>
                           <input
+                           placeholder="dd/mm/yyyy"
                             type="date"
                             name="date"
                             onChange={(e) => handleTestChange(e, index)}

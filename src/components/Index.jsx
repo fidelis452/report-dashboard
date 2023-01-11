@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios, { Axios } from "axios";
 import { DatePicker, message } from 'antd';
 import {
   CartesianGrid,
@@ -14,6 +14,8 @@ import {
 } from "recharts";
 
 import "./Index.css";
+import { format } from 'date-fns'
+
 import topImage from "../files/Acquiretek-Test.png";
 import logoImage from "../files/MicrosoftTeams-image.png";
 import JsonData from "./logos.json";
@@ -34,7 +36,7 @@ export default function TableContent() {
   const [attempts, setAttempts] = useState([]);
   const [serverDowntime, setServerDowntime] = useState();
   const [loginAttempts, setLoginAttempts] = useState();
-
+  const [wpversionData, setWpversionData] = useState()
   // const [clients, setClients] = useState([{ name: "select a client" }]);
   const [formData, setFormData] = useState();
   const [startDate, setStartDate] = useState(new Date());
@@ -44,6 +46,7 @@ export default function TableContent() {
   const [activeUser, setActiveUser] = useState();
   const [dates, setDates] = useState([])
   const [filteredData, setFilteredData] = useState([])
+
   const current = new Date();
   const month = current.toLocaleString("en-US", { month: "short" });
   const year = `${current.getFullYear()}`;
@@ -59,7 +62,7 @@ export default function TableContent() {
     const day = date.getDate()
     const month = date.getMonth()
     const year = date.getFullYear()
-    return `${year}/${month}/${day}`;
+    return `${month}/${day}`;
   };
 
   useEffect(() => {
@@ -89,42 +92,47 @@ export default function TableContent() {
   }, []);
 
   useEffect(() => {
-    try {
-      axios.get("http://localhost:4000/dashboard/serverDowntime")
+    axios.get("http://localhost:4000/dashboard/serverDowntime")
       .then(res => {
-        const serverDowntimeData = res.data.map((item1) => ({
-          ...item1,
-          date_added: dateformater(item1.date_added),
-        }));
+        const serverDowntimeData = res.data;
         setServerDowntime(serverDowntimeData);
         setTimeout(() => {
         }, 2000);
+      }).catch((err) => {
+        console.log(err);
       })
-    } catch (error) {
-      console.log(error);
-    }
-  })
-  // useEffect(() => {
-  //   axios.get("http://localhost:4000/dashboard/serverDowntime")
-  //     .then(res => {
-  //       const serverDowntimeData = res.data.map((item1) => ({
-  //         ...item1,
-  //         date_added: dateformater(item1.date_added),
-  //       }));
-  //       setServerDowntime(serverDowntimeData);
-  //       setTimeout(() => {
-  //       }, 2000);
-  //     }).catch((err) => {
-  //       console.log(err);
-  //     })
-  // }, []);
+  }, []);
+
   console.log(serverDowntime);
 
   useEffect(() => {
-    const lsData = localStorage.getItem("data");
+    axios.get("http://localhost:4000/dashboard/wpversion")
+      .then(res => {
+        const wpversion = res.data.map((item) => ({
+          ...item,
+          date: dateformater(item.date)
+        }));
+        setWpversionData(wpversion);
+        setTimeout(() => {
+        }, 2000);
+      }).catch((err) => {
+        console.log(err);
+      })
+  }, []);
 
+  console.log({ wpversionData });
+
+  useEffect(() => {
+    const lsData = localStorage.getItem("data");
     setFormData(JSON.parse(lsData));
   }, []);
+
+  // const xy = formData?.map((item) => ({
+  //   ...item,
+  //   lastTime: new Date(item.lastTime).toLocaleDateString("en-GB"),
+  // }))
+  // console.log(xy);
+
 
 
   const new1 = formData?.map((data) => ({
@@ -145,7 +153,7 @@ export default function TableContent() {
       let server_response = serverRes.filter((single_server_response) => {
         return single_server_response?.client_name === item?.clientName
       })
-      return { ...item, server_response: server_response }
+      return { ...item, server_response: server_response}
     })
 
     const withLoginAttempts = withServerResponse?.map((item) => {
@@ -155,15 +163,24 @@ export default function TableContent() {
       return { ...item, login_attempts: login_attempts }
     })
 
-    setMergedData(withLoginAttempts);
+    const withWpversionData = withLoginAttempts?.map((item) => {
+      let wpversions = wpversionData?.filter((single_clientWPV) => {
+        return single_clientWPV?.clientname === item?.clientName
+      })
+      return { ...item, wpversion: wpversions }
+    })
+
+    // console.log(withWpversionData);
+    setMergedData(withWpversionData);
     // setActiveUser(withLoginAttempts)
 
-  }, [formData, serverRes, attempts]);
+  }, [formData, serverRes, attempts, wpversionData]);
 
   console.log({ mergedData });
+
   const handleSelect = (values) => {
     setDates(values.map(item => {
-      return item.format("YYYY/MM/DD")
+      return item.format("MM/DD")
     }))
   }
 
@@ -199,7 +216,8 @@ export default function TableContent() {
     setCurrentUser(clientFound);
   };
 
-  console.log(currentUser);
+  console.log(currentUser?.wpversion[0]?.wordPressVersion
+  );
 
   function healthStatus() {
     if (currentUser?.health === "good") {
@@ -225,20 +243,20 @@ export default function TableContent() {
     content: () => Index.current,
   });
 
+  console.log(currentUser);
+
   return (
     <div>
       <ReactToPrint>
-        <div className="radiobtn">
-
-        <div className="col-md-6">
+        <div className="filter">
+          <div className="col-md-6">
             <RangePicker
               ranges={[selectionRange]}
               onChange={handleSelect}
             >
             </RangePicker >
           </div>
-
-          <div>
+          <div className="col-md-6">
             <label for="clients">Select the Client: </label>
             <select id="clients" name="clientName" onChange={handleChange}>
               {filtered?.map((item, index) => (
@@ -248,12 +266,11 @@ export default function TableContent() {
               ))}
             </select>
           </div>
-
-          
-
         </div>
+
+        {/* pdf generation */}
         <div ref={Index}>
-          <div className="dashboard" id="pagebreak">
+          <div className="dashboard" id="pagebreak1">
             <div className="page-1">
               <div className="logoImage">
                 <img
@@ -262,14 +279,14 @@ export default function TableContent() {
                   width="150px"
                 />
               </div>
-              <img id="image" src={topImage} alt="background" width="100%" />
+              <img className="bg-image" id="image" src={topImage} alt="background" width="100%" />
             </div>
             <div className="time">
               <div>{month}</div>
               <div>{year}</div>
             </div>
             <div className="urls">
-              <div>{currentUser?.clientName}</div>
+              <div>{currentUser?.JsonData[0]?.url}</div>
             </div>
           </div>
 
@@ -305,7 +322,7 @@ export default function TableContent() {
                 </Link>
               </div>
               <Link href="#" className="title">
-                <div>Snapshoots</div>
+                <div>Snapshots</div>
                 <div class="leaders" aria-hidden="true"></div>
                 <div className="page">1</div>
               </Link>
@@ -431,7 +448,7 @@ export default function TableContent() {
               </div>
               <div>
                 <div className="item">{currentUser?.tempoHours}</div>
-                <div>Billed on Development ("Hours")</div>
+                <div>Hours Billed on Development</div>
               </div>
               <div>
                 <div className="item">{total_loginAttempts}</div>
@@ -443,13 +460,23 @@ export default function TableContent() {
               </div>
               <div>
                 <div className="item">
-                  <div>{currentUser?.lastTime}</div>
+                  <div>{new Date(currentUser?.lastTime).toLocaleDateString("en-GB")}</div>
                 </div>
                 <div>Last time patched/updated</div>
               </div>
               <div>
                 <div className="item">{currentUser?.formTested}</div>
                 <div>Times tested for enquiry forms</div>
+              </div>
+              <div>
+                <div className="item">
+                  <div>{currentUser?.wpversion[0]?.wordPressVersion || "No PHP version"}</div>
+                </div>
+                <div>PHP version</div>
+              </div>
+              <div>
+                <div className="item">{currentUser?.wpversion[0]?.wordPressVersion || "No WP version"}</div>
+                <div>WP Versions</div>
               </div>
             </div>
           </div>
@@ -475,11 +502,12 @@ export default function TableContent() {
                   <XAxis
                     dataKey="date_added"
                     position="insideTop"
-                    fontSize="10px"
+                    fontSize="9px"
                     interval={0}
-                    label={{ value: "Dates", offset: "0", position: 'insideBottom' }}
+                    angle="90"
+                    label={{ value: "Days", offset: "0", position: 'insideBottom' }}
                   />
-                  <YAxis label={{ value: "No of Login attempts", angle: -90, position: 'insideLeft', style: { textAnchor: 'start' } }}
+                  <YAxis label={{ value: "Server response time (ms) ", angle: -90, position: 'insideLeft', style: { textAnchor: 'start' } }}
                   />
                   <Tooltip />
                   <Legend />
@@ -488,7 +516,7 @@ export default function TableContent() {
             </div>
             {/* graph 2 */}
             <div className="graphs">
-              <div className="graph-title">Attempted Login</div>
+              <div className="graph-title">Attempted LoginsS</div>
               <div>
                 <LineChart width={700} height={300} data={currentUser?.login_attempts}>
                   <Line
@@ -502,8 +530,9 @@ export default function TableContent() {
                     position="insideTop"
                     fontSize="10px"
                     interval={0}
+                    label={{ value: "Days", offset: "0", position: 'insideBottom' }}
                   />
-                  <YAxis />
+                  <YAxis label={{ value: "Number of Login Attempts ", angle: -90, position: 'insideLeft', style: { textAnchor: 'start' } }} />
                   <Tooltip />
                   <Legend />
                 </LineChart>
@@ -558,7 +587,7 @@ export default function TableContent() {
                   item?.map((new_item, x) => {
                     return (
                       <tr key={x}>
-                        <td>{new_item['date']}</td>
+                        <td>{new Date(new_item['date']).toLocaleDateString("en-GB")}</td>
                         <td>{new_item['testName']}</td>
                       </tr>
                     );

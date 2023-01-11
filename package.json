@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.1.2",
     "axios": "^1.2.1",
+    "date-fns": "^2.29.3",
     "generate-pdf-from-react-html": "^1.0.5",
     "html-to-image": "^1.11.1",
     "html2canvas": "^1.4.1",
