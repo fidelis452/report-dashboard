@@ -3,6 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "./form.scss";
 
+// const DEFAULT_CLIENT_FORM ={
+//   clientname0 :"",
+//   url: "",
+//   username: "",
+//   password: ""
+// }
+
 const Form = () => {
   const [clients, setClients] = useState([{ clientname: "select a client" }]);
   const [currentClient, setCurrentClient] = useState();
@@ -16,6 +23,15 @@ const Form = () => {
     { testName: "", date: "" },
   ]);
   const [clientData, setClientData] = useState([]);
+  const [error, setError] = useState("");
+  // state for the addClient form
+  // const [addClient, setAddClient] = useState(DEFAULT_CLIENT_FORM);
+  const [clienta, setClienta] = useState([]);
+
+  const [clientname, setClientname] = useState();
+  const [url, setUrl] = useState();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
 
   const dataBlueprint = {
     clientName: "",
@@ -24,7 +40,7 @@ const Form = () => {
     backupsTaken: "",
     formTested: "",
     tempoHours: "",
-    id: ""
+    id: "",
   };
 
   // function to add more fields on the user experience tests
@@ -43,6 +59,7 @@ const Form = () => {
           username: user.username,
           url: user.url,
           clientname: user.clientname,
+          password: user.password,
         }));
         console.log({ newArray });
         console.log({ clients });
@@ -63,7 +80,6 @@ const Form = () => {
           ...prev,
           { ...dataBlueprint, clientName: e.target.value },
         ]);
-
       }
     } else {
       setClientData(
@@ -107,7 +123,6 @@ const Form = () => {
     setMyData([{ client: currentClient, userExperience }]);
 
     const merges = clientData?.map((data) => {
-
       let y = myData.filter((mydataonj) => {
         console.log({ myData });
         return mydataonj.client === data.clientName;
@@ -130,6 +145,42 @@ const Form = () => {
     navigate("/");
   };
 
+  //handler the onChange event
+
+  // const changeHandler = (e) => {
+  //   setAddClient((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  // };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const data = {
+      clientname: clientname,
+      url: url,
+      username: username,
+      password: password,
+    };
+    try {
+      if (clientname === "") {
+        return setError("The Client's name is needed");
+      } else if (url === "") {
+        return setError("The website url is needed");
+      } else if (username === "") {
+        return setError("Please fill in your name");
+      } else if (password === "") {
+        return setError("Please fill in the password");
+      } else{
+        await axios.post(
+          "http://localhost:4000/register",
+          data
+        ).then(res => {
+          console.log(JSON.stringify(res.data));
+        })
+
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
 
 
   return (
@@ -262,7 +313,7 @@ const Form = () => {
                             onChange={(e) => handleTestChange(e, index)}
                             value={userExperience.testName}
                             className="form-control"
-                          // onChange={(e) => handleChange(e, index)}
+                            // onChange={(e) => handleChange(e, index)}
                           />
                         </div>
                       </div>
@@ -275,7 +326,7 @@ const Form = () => {
                             onChange={(e) => handleTestChange(e, index)}
                             value={userExperience.date}
                             className="form-control"
-                          // onChange={(e) => handleChange(e, index)}
+                            // onChange={(e) => handleChange(e, index)}
                           />
                         </div>
                       </div>
@@ -298,8 +349,7 @@ const Form = () => {
           </div>
           {/* begining of the right side  */}
           <div className="col-md-7 form__right">
-
-          <div className="row">
+            <div className="row">
               {/* modal button  */}
               <div className="col-md-5 bg-light mb-5">
                 <button
@@ -340,7 +390,8 @@ const Form = () => {
                         <td>{singledata["tempoHours"]}</td>
                       </tr>
                     );
-                  })}
+                  })
+                }
               </tbody>
             </table>
           </div>
@@ -370,33 +421,56 @@ const Form = () => {
               ></button>
             </div>
             <div class="modal-body">
+              {error && <p className="error_message">{error} </p>}
+
               <form action="">
                 <div className="form-group">
                   <label htmlFor="">Client Name:</label>
-                  <input type="text" className="form-control" />
+                  <input
+                    type="text"
+                    onChange={(e) => setClientname(e.target.value)}
+                    name="clientname0"
+                    value={clientname}
+                    className="form-control"
+                  />
                 </div>
                 <div className="form-group">
                   <label htmlFor="">Url:</label>
-                  <input type="text" className="form-control" />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="">Client Name:</label>
-                  <input type="text" className="form-control" />
+                  <input
+                    type="text"
+                    onChange={(e) => setUrl(e.target.value)}
+                    name="url"
+                    value={url}
+                    className="form-control"
+                  />
                 </div>
                 <div className="form-group">
                   <label htmlFor="">Username:</label>
-                  <input type="text" className="form-control" />
+                  <input
+                    type="text"
+                    onChange={(e) => setUsername(e.target.value)}
+                    name="username"
+                    value={username}
+                    className="form-control"
+                  />
                 </div>
                 <div className="form-group">
                   <label htmlFor="">Password:</label>
-                  <input type="password" className="form-control" />
+                  <input
+                    type="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    value={password}
+                    className="form-control"
+                  />
                 </div>
                 <div className="row">
-                  <button className="add__btn">Add</button>
+                  <button onClick={submitHandler} className="add__btn">
+                    Add
+                  </button>
                 </div>
               </form>
             </div>
-           
           </div>
         </div>
       </div>
