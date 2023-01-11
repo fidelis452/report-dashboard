@@ -6,7 +6,7 @@
   /* background-color: rgb(67, 106, 141); */
 }
 .time {
-  margin-top: -60%;
+  margin-top: -29rem;
   margin-left: 30%;
   font-size: 3.5rem;
   font-weight: 400;
@@ -25,6 +25,11 @@
   font-weight: 300;
   color: white;
   font-family: system-ui;
+}
+
+.bg-image{
+  height: 66rem;
+  object-fit: cover;
 }
 
 .table-content {
@@ -100,7 +105,7 @@ div > a {
   text-transform: uppercase;
   font-weight: 500;
   font-size: 1.5rem;
-  margin: 3.5rem 0rem 1rem 0rem;
+  margin: .5rem 0rem .25rem 0rem;
 }
 .intro {
 }
@@ -108,7 +113,7 @@ div > a {
 }
 .table {
   text-align: left;
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
 }
 .table-intro {
   color: rgb(79, 79, 177);
@@ -122,7 +127,7 @@ th {
 }
 table {
   width: 100%;
-  margin: 3rem 0rem;
+  margin: 1rem 0rem;
 }
 table,
 th,
@@ -194,7 +199,7 @@ td {
   text-transform: uppercase;
   font-weight: 600;
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 .grid-container {
   display: grid;
@@ -219,6 +224,8 @@ td {
 .date {
   padding: 1rem;
   border: none;
+  margin-bottom: -10px;
+  /* background-color: fuchsia; */
   color: black;;
   font-size: 25px;
   font-weight: 600;
@@ -309,13 +316,24 @@ td {
   }
 } */
 @media print {
-  #pagebreak {
+  #pagebreak1 {
     display: block;
     break-before: always !important;
     page-break-before: always !important;
     page-break-inside: avoid !important;
     font-family: calibri;
     margin-top: 0rem !important;
+    counter-increment: page;
+    content: counter(page);
+    /* overflow: visible; */
+  }
+  #pagebreak {
+    display: block;
+    break-before: always !important;
+    page-break-before: always !important;
+    page-break-inside: avoid !important;
+    font-family: calibri;
+    margin-top: 3rem !important;
     counter-increment: page;
     content: counter(page);
     /* overflow: visible; */
@@ -329,7 +347,7 @@ td {
   }
   #pagebreak:after {
     /* counter-increment: page; */
-    content: "Page " counter(page);
+    /* content: "Page " counter(page); */
     left: 0;
     margin-bottom: 3rem;
     white-space: nowrap;

@@ -253,7 +253,7 @@ export default function TableContent() {
 
         </div>
         <div ref={Index}>
-          <div className="dashboard" id="pagebreak">
+          <div className="dashboard" id="pagebreak1">
             <div className="page-1">
               <div className="logoImage">
                 <img
@@ -262,7 +262,7 @@ export default function TableContent() {
                   width="150px"
                 />
               </div>
-              <img id="image" src={topImage} alt="background" width="100%" />
+              <img id="image" className="bg-image" src={topImage} alt="background" width="100%" />
             </div>
             <div className="time">
               <div>{month}</div>
