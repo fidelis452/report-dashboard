@@ -151,6 +151,14 @@ const Form = () => {
   //   setAddClient((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   // };
 
+  //validating the url
+
+  const isUrlValid = (url) => {
+    const legitEmail =
+      /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    return legitEmail.test(url);
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
     const data = {
@@ -164,24 +172,21 @@ const Form = () => {
         return setError("The Client's name is needed");
       } else if (url === "") {
         return setError("The website url is needed");
+      } else if (!isUrlValid(data.url)) {
+        return setError("Invalid Url !!!");
       } else if (username === "") {
         return setError("Please fill in your name");
       } else if (password === "") {
         return setError("Please fill in the password");
-      } else{
-        await axios.post(
-          "http://localhost:4000/register",
-          data
-        ).then(res => {
+      } else {
+        await axios.post("http://localhost:4000/register", data).then((res) => {
           console.log(JSON.stringify(res.data));
-        })
-
+        });
       }
     } catch (error) {
       alert(error);
     }
   };
-
 
   return (
     <div className="form_div">
