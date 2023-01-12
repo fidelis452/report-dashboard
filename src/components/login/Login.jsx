@@ -34,7 +34,7 @@ const [password, setPassword] = useState()
       }else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)){
         return setError("Invalid email!!!")
       }else if(password=== ""){
-        return setError("please your password")
+        return setError("Please your password")
       }else{
         const res = await axios.post('http://localhost:4000/login', dataq)
         const token = res.data.token
