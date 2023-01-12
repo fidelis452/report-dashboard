@@ -3,12 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "./form.scss";
 
-// const DEFAULT_CLIENT_FORM ={
-//   clientname0 :"",
-//   url: "",
-//   username: "",
-//   password: ""
-// }
 
 const Form = () => {
   const [clients, setClients] = useState([{ clientname: "select a client" }]);
@@ -24,14 +18,12 @@ const Form = () => {
   ]);
   const [clientData, setClientData] = useState([]);
   const [error, setError] = useState("");
-  // state for the addClient form
-  // const [addClient, setAddClient] = useState(DEFAULT_CLIENT_FORM);
-  const [clienta, setClienta] = useState([]);
 
   const [clientname, setClientname] = useState();
   const [url, setUrl] = useState();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  // const [token, setToken] = useState()
 
   const dataBlueprint = {
     clientName: "",
@@ -43,6 +35,13 @@ const Form = () => {
     id: "",
   };
 
+//  get the token start
+
+const token = JSON.parse(localStorage.getItem('token'))
+
+// end of getting the token
+// mm
+
   // function to add more fields on the user experience tests
   const addFields = (e) => {
     e.preventDefault();
@@ -51,7 +50,15 @@ const Form = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/dashboard/fetchClients")
+      .get("http://localhost:4000/dashboard/fetchClients",
+        {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            'token': `${token}`
+          }
+        }
+      )
       .then(function (res) {
         // console.log(res.data);
         const newArray = res.data.map((user) => ({
@@ -64,7 +71,10 @@ const Form = () => {
         console.log({ newArray });
         console.log({ clients });
         setClients([...clients, ...newArray]);
-      });
+      }, (error) => {
+        console.log(error);
+      }
+      );
   }, []);
 
   const handleChange = (e) => {
@@ -118,7 +128,7 @@ const Form = () => {
     newValues[index][e.target.name] = e.target.value;
     setUserExperience(newValues);
 
-    setClient(currentClient);
+    setClient(currentClient); 
 
     setMyData([{ client: currentClient, userExperience }]);
 
@@ -137,6 +147,7 @@ const Form = () => {
 
   useEffect(() => {
     setClientData(JSON.parse(localStorage.getItem("data")) ?? []);
+
   }, []);
 
   const handleSubmit = (e) => {
@@ -144,12 +155,6 @@ const Form = () => {
     localStorage.setItem("data", JSON.stringify(clientData));
     navigate("/");
   };
-
-  //handler the onChange event
-
-  // const changeHandler = (e) => {
-  //   setAddClient((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  // };
 
   //validating the url
 
@@ -269,7 +274,7 @@ const Form = () => {
                 <div className="form-group">
                   <label htmlFor="">Last time Patched:</label>
                   <input
-                  placeholder="dd/mm/yyyy"
+                    placeholder="dd/mm/yyyy"
                     type="date"
                     name="lastTime"
                     className="form-control"
@@ -320,7 +325,7 @@ const Form = () => {
                             onChange={(e) => handleTestChange(e, index)}
                             value={userExperience.testName}
                             className="form-control"
-                            // onChange={(e) => handleChange(e, index)}
+                          // onChange={(e) => handleChange(e, index)}
                           />
                         </div>
                       </div>
@@ -328,13 +333,13 @@ const Form = () => {
                         <div className="form-group">
                           <label htmlFor="">Date:</label>
                           <input
-                           placeholder="dd/mm/yyyy"
+                            placeholder="dd/mm/yyyy"
                             type="date"
                             name="date"
                             onChange={(e) => handleTestChange(e, index)}
                             value={userExperience.date}
                             className="form-control"
-                            // onChange={(e) => handleChange(e, index)}
+                          // onChange={(e) => handleChange(e, index)}
                           />
                         </div>
                       </div>

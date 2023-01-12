@@ -7,11 +7,13 @@
         },
         {
             "image": "/logo/CarveOS logo.png",
-            "url": "https://carveos.com/"
+            "url": "https://carveos.com/",
+            "name": "CarveOs"
         },
         {
             "image": "/logo/chally logo.png",
-            "url": "https://chally.com/"
+            "url": "https://chally.com/",
+            "name": "Chally"
         },
         {
             "image": "/logo/CJ Rush logo.png",
@@ -29,6 +31,11 @@
         {
             "image": "/logo/griffin logo.png",
             "url": "https://griffinsolutionsgroup.com/",
+            "name": "Griffin Solution"
+        },
+        {
+            "image": "/logo/griffin logo.png",
+            "url": "https://griffinsolutionsgroup.com/",
             "name": "gf"
         },
         {
@@ -38,16 +45,23 @@
         },
         {
             "image": "/logo/ten oaks logo.png",
-            "url": "https://tenoaksgroup.com/"
+            "url": "https://tenoaksgroup.com/",
+            "name": "Ten Oaks Group"
         },
         {
             "image": "/logo/THH logo.png",
-            "url": "https://thh-llc.com/"
+            "url": "https://thh-llc.com/",
+            "name": "THH"
         }
         ,
         {
             "image": "/logo/USLS logo.png",
             "url": "https://uslogisticssolutions.com/"
+        },
+        {
+            "image": "/logo/USLS logo.png",
+            "url": "https://uslogisticssolutions.com/",
+            "name": "Testing Site"
         }
     ]
 }

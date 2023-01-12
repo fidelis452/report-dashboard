@@ -47,7 +47,7 @@ export default function TableContent() {
   const [activeUser, setActiveUser] = useState();
   const [dates, setDates] = useState([])
   const [filteredData, setFilteredData] = useState([])
-
+  // const [token, setToken] = useState()
   const current = new Date();
   const month = current.toLocaleString("en-US", { month: "short" });
   const year = `${current.getFullYear()}`;
@@ -66,8 +66,19 @@ export default function TableContent() {
     return `${year}/${month}/${day}`;
   };
 
+  //  get the token start
+
+  const token = JSON.parse(localStorage.getItem('token'))
+
+  // end of getting the token
+
   useEffect(() => {
-    axios.get("http://localhost:4000/dashboard/serverResponse")
+    axios.get("http://localhost:4000/dashboard/serverResponse",
+      {
+        headers: {
+          'token': `${token}`
+        }
+      })
       .then(res => {
         const serverResponseData = res.data.map((item1) => ({
           ...item1,
@@ -80,7 +91,12 @@ export default function TableContent() {
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:4000/dashboard/loginAttempts")
+    axios.get("http://localhost:4000/dashboard/loginAttempts",
+      {
+        headers: {
+          'token': `${token}`
+        }
+      })
       .then(function (res) {
         const formattedData = res.data.map((item) => ({
           ...item,
@@ -92,8 +108,15 @@ export default function TableContent() {
       });
   }, []);
 
+  // console.log(attempts);
+
   useEffect(() => {
-    axios.get("http://localhost:4000/dashboard/serverDowntime")
+    axios.get("http://localhost:4000/dashboard/serverDowntime",
+      {
+        headers: {
+          'token': `${token}`
+        }
+      })
       .then(res => {
         const serverDowntimeData = res.data;
         setServerDowntime(serverDowntimeData);
@@ -104,10 +127,15 @@ export default function TableContent() {
       })
   }, []);
 
-  // console.log({ serverDowntime });
+  console.log({ serverDowntime });
 
   useEffect(() => {
-    axios.get("http://localhost:4000/dashboard/phpversion")
+    axios.get("http://localhost:4000/dashboard/phpversion",
+      {
+        headers: {
+          'token': `${token}`
+        }
+      })
       .then(res => {
         const phpversion = res.data.map((item) => ({
           ...item,
@@ -121,10 +149,15 @@ export default function TableContent() {
       })
   }, []);
 
-  // console.log({ phpversionData });
+  console.log({ phpversionData });
 
   useEffect(() => {
-    axios.get("http://localhost:4000/dashboard/wpversion")
+    axios.get("http://localhost:4000/dashboard/wpversion",
+      {
+        headers: {
+          'token': `${token}`
+        }
+      })
       .then(res => {
         const wpversion = res.data.map((item) => ({
           ...item,
@@ -144,20 +177,6 @@ export default function TableContent() {
     const lsData = localStorage.getItem("data");
     setFormData(JSON.parse(lsData));
   }, []);
-
-  // const xy = formData?.map((item) => ({
-  //   ...item,
-  //   lastTime: new Date(item.lastTime).toLocaleDateString("en-GB"),
-  // }))
-  // console.log(xy);
-
-
-
-  const new1 = formData?.map((data) => ({
-    url: data.clientName,
-  }));
-
-
 
   useEffect(() => {
     const newData = formData?.map((singleFormData) => {
@@ -195,13 +214,19 @@ export default function TableContent() {
       return { ...item, phpversion: phpversions }
     })
 
-    // console.log(withWpversionData);
-    setMergedData(withphpversionData);
+    const withserverDownTime = withphpversionData?.map((item) => {
+      let server_downTime = serverDowntime?.filter((single_clientWPV) => {
+        return single_clientWPV?.client_name === item?.clientName
+      })
+      return { ...item, server_downTime: server_downTime}
+    })
+    console.log(withserverDownTime);
+    setMergedData(withserverDownTime);
     // setActiveUser(withLoginAttempts)
 
-  }, [formData, serverRes, attempts, wpversionData]);
+  }, [formData, serverRes, attempts, wpversionData,phpversionData, serverDowntime]);
 
-  // console.log({ mergedData });
+  console.log({ mergedData });
 
   const handleSelect = (values) => {
     setDates(values.map(item => {
@@ -269,10 +294,12 @@ export default function TableContent() {
     0
   );
 
-  const total_serverResponseTime = currentUser?.server_response.reduce(
-    (total = 0, item) => (total += item.response_time),
+  const total_serverDownTime = currentUser?.server_downTime.reduce(
+    (total = 0, item) => (total += item.downtime),
     0
   );
+
+  const rounded_serverDownTime = total_serverDownTime?.toFixed(2)
 
   const handleGeneratePdf = useReactToPrint({
     content: () => Index.current,
@@ -350,7 +377,7 @@ export default function TableContent() {
               <div>{year}</div>
             </div>
             <div className="urls">
-              <div>{currentUser?.JsonData[0]?.url}</div>
+              <div><a href={currentUser?.JsonData[0]?.url}>{currentUser?.JsonData[0]?.url}</a></div>
             </div>
           </div>
 
@@ -506,7 +533,7 @@ export default function TableContent() {
             <div className="snapshot">Snapshot</div>
             <div class="grid-container">
               <div>
-                <div className="item">{serverDowntime?.data}
+                <div className="item">{rounded_serverDownTime}
                 </div>
                 <div>Total Downtime (hrs)</div>
               </div>
@@ -533,12 +560,12 @@ export default function TableContent() {
               </div> */}
               <div>
                 <div className="item">
-                  <div>{currentUser?.phpversion[0]?.php || "No PHP version"}</div>
+                  <div>{currentUser?.phpversion[0]?.php || ""}</div>
                 </div>
                 <div>PHP version</div>
               </div>
               <div>
-                <div className="item">{currentUser?.wpversion[0]?.wordPressVersion || "No WP version"}</div>
+                <div className="item">{currentUser?.wpversion[0]?.wordPressVersion || ""}</div>
                 <div>WP Versions</div>
               </div>
             </div>
@@ -559,7 +586,7 @@ export default function TableContent() {
                     type="monotone"
                     dataKey="response_time"
                     stroke="blue"
-                    strokeWidth={1}
+                    strokeWidth={2}
                   />
                   <CartesianGrid stroke="#ccc" strokeDasharray="2,2" />
                   <XAxis
@@ -567,11 +594,11 @@ export default function TableContent() {
                     position="insideTop"
                     fontSize="10px"
                     interval={0}
-                    // angle="60"
-                    tickMargin={10}
-                    label={{ value: "Days", tickMargin: 20, fontSize: 11, offset: "-4", position: 'insideBottom' }}
+                    stroke="black"
+                    tickMargin={5}
+                    label={{ value: "Days", tickMargin: 20, fontSize: 11, offset: "-4", position: 'insideBottom', style: { fill: "black" } }}
                   />
-                  <YAxis label={{ value: "Server response time (ms) ", inset: "-10", angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }}
+                  <YAxis stroke="black" label={{ value: "Server response time (ms) ", inset: "-10", angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: "black" } }}
                   />
                   <Tooltip />
                   {/* <Legend /> */}
@@ -587,17 +614,18 @@ export default function TableContent() {
                     type="monotone"
                     dataKey="numberOfRetries"
                     stroke="blue"
-                    strokeWidth={1}
+                    strokeWidth={2}
                   />
-                  <CartesianGrid stroke="#ccc" strokeDasharray="2,2" />
+                  <CartesianGrid stroke="#ccc" strokeDasharray="2,2" vertical={false} />
                   <XAxis dataKey={"date"}
                     position="insideTop"
                     fontSize="10px"
                     interval={0}
-                    tickMargin={10}
-                    label={{ value: "Days", fontSize: 11, offset: "-4", position: 'insideBottom' }}
+                    stroke="black"
+                    tickMargin={5}
+                    label={{ value: "Days", fontSize: 11, offset: "-4", position: 'insideBottom', style: { fill: ' black' } }}
                   />
-                  <YAxis label={{ value: "Number of Login Attempts ", angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }} />
+                  <YAxis stroke="black" label={{ value: "Number of Login Attempts ", angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: 'black' } }} />
                   <Tooltip />
                   {/* <Legend /> */}
                 </LineChart>
