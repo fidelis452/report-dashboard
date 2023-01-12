@@ -152,7 +152,7 @@ const Form = () => {
   // };
 
   const submitHandler = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const data = {
       clientname: clientname,
       url: url,
@@ -175,7 +175,7 @@ const Form = () => {
         ).then(res => {
           console.log(JSON.stringify(res.data));
         })
-
+        navigate("/form")
       }
     } catch (error) {
       alert(error);

@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import './Login.scss';
 import LoginSvg from '../../assets/images/login.svg'
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import axios from 'axios';
 
 // const DEFAULT_FORM_LOGIN={
@@ -61,14 +59,6 @@ const [password, setPassword] = useState()
           <form action="">
           {error && <p className="error_message">{error} </p> }
             <div className="form-group">
-<<<<<<< HEAD
-              <label className='form-label' htmlFor="">Username:</label>
-              <input className='form-control' type="text" placeholder='username' value={data.username}/>
-            </div>
-            <div className="form-group">
-              <label className='form-label' htmlFor="">Password:</label>
-              <input className='form-control' type="password" placeholder='Password' value={data.password}/>
-=======
               <label className='form-label' htmlFor="">Email:</label>
               <input className='form-control'
               type="email" 
@@ -86,7 +76,6 @@ const [password, setPassword] = useState()
               onChange={(e) => setPassword(e.target.value)}
                placeholder='Password'
                 />
->>>>>>> 70dff6888090140f43f2755619a5fd0147a7ecfd
             </div>
             <div className="form-group">
               <button className='btn btn-danger' onClick={handleRedirection}>Login</button>

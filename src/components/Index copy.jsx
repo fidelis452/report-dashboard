@@ -11,7 +11,7 @@ import {
   YAxis,
 } from "recharts";
 
-import "./Index.css";
+// import "./Index.css";
 import topImage from "../files/Acquiretek-Test.png";
 import logoImage from "../files/MicrosoftTeams-image.png";
 import JsonData from "./logos.json";

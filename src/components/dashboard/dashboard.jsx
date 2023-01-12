@@ -13,12 +13,12 @@ import {
 
 } from "recharts";
 
-import "./Index.css";
+import "./dashboard.css";
 import { format } from 'date-fns'
 
-import topImage from "../files/Acquiretek-Test.png";
-import logoImage from "../files/MicrosoftTeams-image.png";
-import JsonData from "./logos.json";
+import topImage from "../../files/Acquiretek-Test.png";
+import logoImage from "../../files/MicrosoftTeams-image.png";
+import JsonData from "../logos.json";
 import ReactToPrint, { useReactToPrint } from "react-to-print";
 import moment from "moment/moment";
 import { DateRangePicker } from 'react-date-range';
@@ -38,6 +38,7 @@ export default function TableContent() {
   const [loginAttempts, setLoginAttempts] = useState();
   const [wpversionData, setWpversionData] = useState()
   // const [clients, setClients] = useState([{ name: "select a client" }]);
+  const [phpversionData, setPHPversionData] = useState()
   const [formData, setFormData] = useState();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -62,7 +63,7 @@ export default function TableContent() {
     const day = date.getDate()
     const month = date.getMonth()
     const year = date.getFullYear()
-    return `${month}/${day}`;
+    return `${year}/${month}/${day}`;
   };
 
   useEffect(() => {
@@ -103,7 +104,24 @@ export default function TableContent() {
       })
   }, []);
 
-  console.log(serverDowntime);
+  // console.log({ serverDowntime });
+
+  useEffect(() => {
+    axios.get("http://localhost:4000/dashboard/phpversion")
+      .then(res => {
+        const phpversion = res.data.map((item) => ({
+          ...item,
+          date: dateformater(item.date)
+        }));
+        setPHPversionData(phpversion);
+        setTimeout(() => {
+        }, 2000);
+      }).catch((err) => {
+        console.log(err);
+      })
+  }, []);
+
+  // console.log({ phpversionData });
 
   useEffect(() => {
     axios.get("http://localhost:4000/dashboard/wpversion")
@@ -120,7 +138,7 @@ export default function TableContent() {
       })
   }, []);
 
-  console.log({ wpversionData });
+  // console.log({ wpversionData });
 
   useEffect(() => {
     const lsData = localStorage.getItem("data");
@@ -153,7 +171,7 @@ export default function TableContent() {
       let server_response = serverRes.filter((single_server_response) => {
         return single_server_response?.client_name === item?.clientName
       })
-      return { ...item, server_response: server_response}
+      return { ...item, server_response: server_response }
     })
 
     const withLoginAttempts = withServerResponse?.map((item) => {
@@ -170,17 +188,24 @@ export default function TableContent() {
       return { ...item, wpversion: wpversions }
     })
 
+    const withphpversionData = withWpversionData?.map((item) => {
+      let phpversions = phpversionData?.filter((single_clientWPV) => {
+        return single_clientWPV?.clientname === item?.clientName
+      })
+      return { ...item, phpversion: phpversions }
+    })
+
     // console.log(withWpversionData);
-    setMergedData(withWpversionData);
+    setMergedData(withphpversionData);
     // setActiveUser(withLoginAttempts)
 
   }, [formData, serverRes, attempts, wpversionData]);
 
-  console.log({ mergedData });
+  // console.log({ mergedData });
 
   const handleSelect = (values) => {
     setDates(values.map(item => {
-      return item.format("MM/DD")
+      return item.format("YYYY/MM/DD")
     }))
   }
 
@@ -203,11 +228,24 @@ export default function TableContent() {
       return date >= selectionRange?.startDate &&
         date <= selectionRange?.endDate;
     })
-    return { ...item, server_response: server_response, login_attempts: login_attempts }
+    const newDate = (dataString) => {
+      const new_date = new Date(dataString)
+      const date = new_date.getDate()
+      return `${date}`
+    }
+    const server_response_date = server_response.map((item) => ({
+      ...item,
+      date_added: newDate(item.date_added)
+    }))
+    const login_attempts_date = login_attempts.map((item) => ({
+      ...item,
+      date: newDate(item.date)
+    }))
+    return { ...item, server_response: server_response_date, login_attempts: login_attempts_date }
 
   })
 
-  // console.log({ filtered });
+  console.log({ filtered });
 
   const handleChange = (e) => {
     const clientFound = filtered.find(
@@ -215,9 +253,6 @@ export default function TableContent() {
     );
     setCurrentUser(clientFound);
   };
-
-  console.log(currentUser?.wpversion[0]?.wordPressVersion
-  );
 
   function healthStatus() {
     if (currentUser?.health === "good") {
@@ -243,6 +278,35 @@ export default function TableContent() {
     content: () => Index.current,
   });
 
+  function totalloginAttempts() {
+    if (total_loginAttempts === 0) {
+      return <p>
+        There were {total_loginAttempts} login attempts to the WordPress dashboard
+        over the course of the month.
+      </p>;
+    } else {
+      return <p>
+        There were {total_loginAttempts} login attempts to the WordPress dashboard in
+        acceptable intervals over the course of the month. However, all
+        attempts were blocked, and none was successful.
+      </p>;
+    }
+  }
+
+  function formsTested() {
+    if (currentUser?.formTested === '0') {
+      return <div className="formstested">
+        <div className="item">{currentUser?.formTested}</div>
+        <div>Times tested for enquiry forms</div>
+      </div>
+    }
+    else {
+      return <div className="formstested1">
+        <div className="item">{currentUser?.formTested}</div>
+        <div>Times tested for enquiry forms</div>
+      </div>
+    }
+  }
   console.log(currentUser);
 
   return (
@@ -442,9 +506,9 @@ export default function TableContent() {
             <div className="snapshot">Snapshot</div>
             <div class="grid-container">
               <div>
-                <div className="item">{total_serverResponseTime?.toFixed(2)}
+                <div className="item">{serverDowntime?.data}
                 </div>
-                <div>Total Downtime</div>
+                <div>Total Downtime (hrs)</div>
               </div>
               <div>
                 <div className="item">{currentUser?.tempoHours}</div>
@@ -460,17 +524,16 @@ export default function TableContent() {
               </div>
               <div>
                 <div className="item">
-                  <div>{new Date(currentUser?.lastTime).toLocaleDateString("en-GB")}</div>
+                  <div>{new Date(currentUser?.lastTime).toLocaleDateString("en-US")}</div>
                 </div>
                 <div>Last time patched/updated</div>
               </div>
-              <div>
-                <div className="item">{currentUser?.formTested}</div>
-                <div>Times tested for enquiry forms</div>
-              </div>
+              {formsTested()}
+              {/* <div>
+              </div> */}
               <div>
                 <div className="item">
-                  <div>{currentUser?.wpversion[0]?.wordPressVersion || "No PHP version"}</div>
+                  <div>{currentUser?.phpversion[0]?.php || "No PHP version"}</div>
                 </div>
                 <div>PHP version</div>
               </div>
@@ -502,11 +565,11 @@ export default function TableContent() {
                   <XAxis
                     dataKey={'date_added'}
                     position="insideTop"
-                    fontSize="7px"
+                    fontSize="10px"
                     interval={0}
                     // angle="60"
                     tickMargin={10}
-                    label={{ value: "Days", tickMargin: 20, fontSize: 10, offset: "-4", position: 'insideBottom' }}
+                    label={{ value: "Days", tickMargin: 20, fontSize: 11, offset: "-4", position: 'insideBottom' }}
                   />
                   <YAxis label={{ value: "Server response time (ms) ", inset: "-10", angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }}
                   />
@@ -517,7 +580,7 @@ export default function TableContent() {
             </div>
             {/* graph 2 */}
             <div className="graphs">
-              <div className="graph-title">Attempted LoginsS</div>
+              <div className="graph-title">Attempted Logins</div>
               <div>
                 <LineChart width={700} height={300} data={currentUser?.login_attempts}>
                   <Line
@@ -529,10 +592,10 @@ export default function TableContent() {
                   <CartesianGrid stroke="#ccc" strokeDasharray="2,2" />
                   <XAxis dataKey={"date"}
                     position="insideTop"
-                    fontSize="7px"
+                    fontSize="10px"
                     interval={0}
                     tickMargin={10}
-                    label={{ value: "Days", fontSize: 10, offset: "-4", position: 'insideBottom' }}
+                    label={{ value: "Days", fontSize: 11, offset: "-4", position: 'insideBottom' }}
                   />
                   <YAxis label={{ value: "Number of Login Attempts ", angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }} />
                   <Tooltip />
@@ -557,11 +620,7 @@ export default function TableContent() {
               </p>
             </div>
             <div>
-              <p>
-                There were {total_loginAttempts} login attempts to the WordPress dashboard in
-                acceptable intervals over the course of the month. However, all
-                attempts were blocked, and none was successful.
-              </p>
+              {totalloginAttempts()}
             </div>
           </div>
 
@@ -589,7 +648,7 @@ export default function TableContent() {
                   item?.map((new_item, x) => {
                     return (
                       <tr key={x}>
-                        <td>{new Date(new_item['date']).toLocaleDateString("en-GB")}</td>
+                        <td>{new Date(new_item['date']).toLocaleDateString("en-US")}</td>
                         <td>{new_item['testName']}</td>
                       </tr>
                     );

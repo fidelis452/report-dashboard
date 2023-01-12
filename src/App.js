@@ -1,4 +1,4 @@
-import Dashboard from "./components/Index.jsx";
+import Dashboard from "./components/dashboard/dashboard.jsx";
 import Form from "./components/form/Form.jsx"
 import Login from './components/login/Login.jsx'
 import jsPDF from "jspdf";

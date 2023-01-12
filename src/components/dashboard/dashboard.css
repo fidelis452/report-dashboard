@@ -219,18 +219,24 @@ td {
   font-size: 20px;
   margin-bottom: 7rem;
 }
-
 .item {
   font-size: 30px;
   font-weight: 600;
   color: black;
 }
+.grid-container > div > div{
+  text-transform: capitalize;
+}
+.formstested{
+  display: none;
+}
+.formstested1{
+  display:inherit !important;
+}
 .date {
   padding: 0rem;
   border: none;
-  /* margin-bottom: -10px; */
-  /* background-color: fuchsia; */
-  color: black;;
+  color: black;
   font-size: 25px;
   font-weight: 600;
 }
