@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { a } from "react-router-dom";
 import axios, { Axios } from "axios";
 import { DatePicker, message } from 'antd';
 import {
@@ -385,66 +385,66 @@ export default function TableContent() {
           <div className="table-content" id="pagebreak">
             <div className="heading">TABLE OF CONTENTS</div>
             <div className="">
-              <a href="#exec-summary" className="title">
+              <a href="#content" className="title">
                 <div>Table of contents</div>
                 <div class="leaders" aria-hidden="true"></div>
                 <div className="page">1</div>
               </a>
-              <Link href="#" className="title">
+              <a href="#exec" className="title">
                 <div>Executive Summary</div>
                 <div class="leaders" aria-hidden="true"></div>
                 <div className="page">2</div>
-              </Link>
+              </a>
               <div className="sub-title">
-                <Link href="#" className="subtitle">
+                <a href="#exec" className="subtitle">
                   <div>Introduction</div>
                   <div class="sub-leaders" aria-hidden="true"></div>
                   <div className="page">2</div>
-                </Link>
-                <Link href="#" className="subtitle">
+                </a>
+                <a href="#exec" className="subtitle">
                   <div>Overall site health</div>
                   <div class="sub-leaders" aria-hidden="true"></div>
                   <div className="page">2</div>
-                </Link>
-                <Link href="#" className="subtitle">
+                </a>
+                {/* <a href="#" className="subtitle">
                   <div>Feature Request</div>
                   <div class="sub-leaders" aria-hidden="true"></div>
                   <div className="page">2</div>
-                </Link>
+                </a> */}
               </div>
-              <Link href="#" className="title">
+              <a href="#snapshots" className="title">
                 <div>Snapshots</div>
                 <div class="leaders" aria-hidden="true"></div>
                 <div className="page">1</div>
-              </Link>
-              <Link href="#" className="title">
+              </a>
+              <a href="#visuals" className="title">
                 <div>Visuals</div>
                 <div class="leaders" aria-hidden="true"></div>
                 <div className="page">1</div>
-              </Link>
-              <Link href="#" className="title">
+              </a>
+              <a href="#security" className="title">
                 <div>security Audit</div>
                 <div class="leaders" aria-hidden="true"></div>
                 <div className="page">1</div>
-              </Link>
+              </a>
               <div className="sub-title">
-                <Link href="#" className="subtitle">
+                <a href="#security" className="subtitle">
                   <div>Unauthorized access and update</div>
                   <div class="sub-leaders" aria-hidden="true"></div>
                   <div className="page">2</div>
-                </Link>
+                </a>
               </div>
-              <Link href="#" className="title">
+              <a href="#maintenance" className="title">
                 <div>Technical maintenance</div>
                 <div class="leaders" aria-hidden="true"></div>
                 <div className="page">1</div>
-              </Link>
+              </a>
               <div className="sub-title">
-                <Link href="#" className="subtitle">
+                <a href="#maintenance" className="subtitle">
                   <div>user experience tests</div>
                   <div class="sub-leaders" aria-hidden="true"></div>
                   <div className="page">2</div>
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -456,8 +456,8 @@ export default function TableContent() {
               </div>
               <div className="date">{date}</div>
             </div>
-            <div>
-              <h1 className="content-title" id="exec-summary">
+            <div id="exec">
+              <h1  className="content-title" >
                 Executive Summary
               </h1>
               <h1 className="content-subtitle" id="introduction">
@@ -530,7 +530,7 @@ export default function TableContent() {
           </div>
           {/* snapshot */}
           <div className="snapshot-container" id="pagebreak">
-            <div className="snapshot">Snapshot</div>
+            <div className="snapshot" id="snapshots">Snapshot</div>
             <div class="grid-container">
               <div>
                 <div className="item">{rounded_serverDownTime}
@@ -574,7 +574,7 @@ export default function TableContent() {
 
           <div className="visuals" id="pagebreak">
             <div>
-              <div className="visual-title">Visuals</div>
+              <div className="visual-title" id="visuals">Visuals</div>
               <div className="visual-subtitle">Uptime Monitoring</div>
             </div>
             {/* graph 1 */}
@@ -588,7 +588,7 @@ export default function TableContent() {
                     stroke="blue"
                     strokeWidth={2}
                   />
-                  <CartesianGrid stroke="#ccc" strokeDasharray="2,2" />
+                  <CartesianGrid stroke="#ccc" strokeDasharray="3,3" />
                   <XAxis
                     dataKey={'date_added'}
                     position="insideTop"
@@ -616,16 +616,16 @@ export default function TableContent() {
                     stroke="blue"
                     strokeWidth={2}
                   />
-                  <CartesianGrid stroke="#ccc" strokeDasharray="2,2" vertical={false} />
+                  <CartesianGrid stroke="#ccc" strokeDasharray="3,3"  />
                   <XAxis dataKey={"date"}
                     position="insideTop"
                     fontSize="10px"
                     interval={0}
                     stroke="black"
                     tickMargin={5}
-                    label={{ value: "Days", fontSize: 11, offset: "-4", position: 'insideBottom', style: { fill: ' black' } }}
+                    label={{ value: "Days", tickMargin: 20, fontSize: 11, offset: "-4", position: 'insideBottom', style: { fill: ' black' } }}
                   />
-                  <YAxis stroke="black" label={{ value: "Number of Login Attempts ", angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: 'black' } }} />
+                  <YAxis stroke="black" label={{ value: "Number of Login Attempts ", inset: "-10", angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: 'black' } }} />
                   <Tooltip />
                   {/* <Legend /> */}
                 </LineChart>
@@ -635,7 +635,7 @@ export default function TableContent() {
 
           {/* Unauthorized access and update */}
           <div className="unauthorized" id="pagebreak">
-            <div className="tech-maintenance">Security Audit</div>
+            <div className="tech-maintenance" id="security">Security Audit</div>
             <div className="user-test">UNAUTHORIZED ACCESS AND UPDATE</div>
             <div className="subsect">
               <div>
@@ -654,7 +654,7 @@ export default function TableContent() {
 
           {/* Technical maintenance */}
           <div className="maintenance" id="pagebreak">
-            <div className="tech-maintenance">TECHNICAL MAINTENACE</div>
+            <div className="tech-maintenance" id="maintenance">TECHNICAL MAINTENACE</div>
             <div className="user-test">USER EXPERIENCE TESTS</div>
             <div className="subsect">
               <div>

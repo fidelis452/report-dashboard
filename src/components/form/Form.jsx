@@ -184,7 +184,14 @@ const token = JSON.parse(localStorage.getItem('token'))
       } else if (password === "") {
         return setError("Please fill in the password");
       } else {
-        await axios.post("http://localhost:4000/register", data).then((res) => {
+        await axios.post("http://localhost:4000/register", data,
+        {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            'token': `${token}`
+          }
+        }).then((res) => {
           console.log(JSON.stringify(res.data));
         });
         navigate("/form")
