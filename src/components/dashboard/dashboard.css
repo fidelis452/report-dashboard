@@ -77,6 +77,12 @@ div > a {
   align-items: baseline;
   text-transform: uppercase;
 }
+.subtitle1 {
+  display: none;
+}
+.snapshot-container1{
+  display: none;
+}
 .sub-leaders {
   border-bottom: 2px dotted rgb(5, 5, 5, 0.4);
   flex-grow: 1;
@@ -340,7 +346,7 @@ td {
     page-break-before: always !important;
     page-break-inside: avoid !important;
     font-family: calibri;
-    margin-top: 5rem !important;
+    margin-top: 15rem !important;
     counter-increment: page;
     content: counter(page);
     /* overflow: visible; */

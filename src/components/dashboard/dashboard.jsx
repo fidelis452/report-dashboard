@@ -218,13 +218,13 @@ export default function TableContent() {
       let server_downTime = serverDowntime?.filter((single_clientWPV) => {
         return single_clientWPV?.client_name === item?.clientName
       })
-      return { ...item, server_downTime: server_downTime}
+      return { ...item, server_downTime: server_downTime }
     })
     console.log(withserverDownTime);
     setMergedData(withserverDownTime);
     // setActiveUser(withLoginAttempts)
 
-  }, [formData, serverRes, attempts, wpversionData,phpversionData, serverDowntime]);
+  }, [formData, serverRes, attempts, wpversionData, phpversionData, serverDowntime]);
 
   console.log({ mergedData });
 
@@ -320,6 +320,40 @@ export default function TableContent() {
     }
   }
 
+  function featureRequestField() {
+    if (currentUser?.featureRequest === "") {
+      return <a href="#features" className="subtitle1">
+        <div>Feature Request</div>
+        <div class="sub-leaders" aria-hidden="true"></div>
+        <div className="page">2</div>
+      </a>;
+    } else {
+      return <a href="#features" className="subtitle">
+        <div>Feature Request</div>
+        <div class="sub-leaders" aria-hidden="true"></div>
+        <div className="page">2</div>
+      </a>;
+    }
+  }
+
+  function featureRequestText() {
+    if (currentUser?.featureRequest === "") {
+      return <div className="snapshot-container1" id="pagebreak">
+        <div className="snapshot" id="features">Feature Request</div>
+        <div class="intro">
+          {currentUser?.featureRequest}
+        </div>
+      </div>;
+    } else {
+      return <div className="snapshot-container" id="pagebreak">
+        <div className="snapshot" id="features">Feature Request</div>
+        <div class="intro">
+          <p>{currentUser?.featureRequest}</p>
+        </div>
+      </div>;
+    }
+  }
+
   function formsTested() {
     if (currentUser?.formTested === '0') {
       return <div className="formstested">
@@ -406,11 +440,7 @@ export default function TableContent() {
                   <div class="sub-leaders" aria-hidden="true"></div>
                   <div className="page">2</div>
                 </a>
-                {/* <a href="#" className="subtitle">
-                  <div>Feature Request</div>
-                  <div class="sub-leaders" aria-hidden="true"></div>
-                  <div className="page">2</div>
-                </a> */}
+                {featureRequestField()}
               </div>
               <a href="#snapshots" className="title">
                 <div>Snapshots</div>
@@ -457,7 +487,7 @@ export default function TableContent() {
               <div className="date">{date}</div>
             </div>
             <div id="exec">
-              <h1  className="content-title" >
+              <h1 className="content-title" >
                 Executive Summary
               </h1>
               <h1 className="content-subtitle" id="introduction">
@@ -528,6 +558,10 @@ export default function TableContent() {
               </table>
             </div>
           </div>
+          {/* feature request */}
+          {featureRequestText()}
+
+          {/* feature request */}
           {/* snapshot */}
           <div className="snapshot-container" id="pagebreak">
             <div className="snapshot" id="snapshots">Snapshot</div>
@@ -616,7 +650,7 @@ export default function TableContent() {
                     stroke="blue"
                     strokeWidth={2}
                   />
-                  <CartesianGrid stroke="#ccc" strokeDasharray="3,3"  />
+                  <CartesianGrid stroke="#ccc" strokeDasharray="3,3" />
                   <XAxis dataKey={"date"}
                     position="insideTop"
                     fontSize="10px"

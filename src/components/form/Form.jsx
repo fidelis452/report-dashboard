@@ -32,15 +32,16 @@ const Form = () => {
     backupsTaken: "",
     formTested: "",
     tempoHours: "",
-    id: "",
+    // id: "",
+    featureRequest: ""
   };
 
-//  get the token start
+  //  get the token start
 
-const token = JSON.parse(localStorage.getItem('token'))
+  const token = JSON.parse(localStorage.getItem('token'))
 
-// end of getting the token
-// mm
+  // end of getting the token
+  // mm
 
   // function to add more fields on the user experience tests
   const addFields = (e) => {
@@ -53,7 +54,7 @@ const token = JSON.parse(localStorage.getItem('token'))
       .get("http://localhost:4000/dashboard/fetchClients",
         {
           headers: {
-            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Origin": "*",
             "Content-type": "Application/json",
             'token': `${token}`
           }
@@ -112,6 +113,10 @@ const token = JSON.parse(localStorage.getItem('token'))
                 e.target.name === "tempoHours"
                   ? e.target.value
                   : data.tempoHours,
+              featureRequest:
+                e.target.name === "featureRequest"
+                  ? e.target.value
+                  : data.featureRequest,
             };
           } else {
             return data;
@@ -128,7 +133,7 @@ const token = JSON.parse(localStorage.getItem('token'))
     newValues[index][e.target.name] = e.target.value;
     setUserExperience(newValues);
 
-    setClient(currentClient); 
+    setClient(currentClient);
 
     setMyData([{ client: currentClient, userExperience }]);
 
@@ -185,15 +190,15 @@ const token = JSON.parse(localStorage.getItem('token'))
         return setError("Please fill in the password");
       } else {
         await axios.post("http://localhost:4000/register", data,
-        {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            'token': `${token}`
-          }
-        }).then((res) => {
-          console.log(JSON.stringify(res.data));
-        });
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Content-type": "Application/json",
+              'token': `${token}`
+            }
+          }).then((res) => {
+            console.log(JSON.stringify(res.data));
+          });
         navigate("/form")
       }
     } catch (error) {
@@ -314,6 +319,15 @@ const token = JSON.parse(localStorage.getItem('token'))
                     className="form-control"
                     onChange={handleChange}
                   />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="">Feature Request:</label>
+                  <textarea
+                    type="text"
+                    className="form-control"
+                    onChange={handleChange}
+                    name="featureRequest"
+                    placeholder="Write something.." />
                 </div>
               </div>
               <div className="row ">
